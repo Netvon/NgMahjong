@@ -1,14 +1,14 @@
-import { NgMahjongPage } from './app.po';
+import { NgMahjongPage } from './app.po'
 
 describe('ng-mahjong App', () => {
-  let page: NgMahjongPage;
+	let page: NgMahjongPage
 
-  beforeEach(() => {
-    page = new NgMahjongPage();
-  });
+	beforeEach(() => {
+		page = new NgMahjongPage()
+	})
 
-  it('should display message saying app works', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
-  });
-});
+	it('should display message saying app works', () => {
+		page.navigateTo()
+		expect(page.getParagraphText()).toEqual('app works!')
+	})
+})
