@@ -14,7 +14,7 @@ import { AppRoutingModule } from './app-routing.module'
 @NgModule({
 	declarations: [
 		AppComponent,
-		GameOverviewComponent,
+		GameOverviewComponent
 	],
 	imports: [
 		BrowserModule,

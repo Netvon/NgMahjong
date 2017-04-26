@@ -1,5 +1,6 @@
 import { User } from './user/user.model'
 import { UserInGame } from './user/user-in-game.model'
+import { TokenInfo } from './user/token-info.model'
 
 import { Tile } from './tile/tile.model'
 import { TemplateTile } from './tile/template-tile.model'
@@ -24,5 +25,6 @@ export {
 	GameState,
 	PostMatch,
 	Pagination,
-	PaginationDetails
+	PaginationDetails,
+	TokenInfo
 }

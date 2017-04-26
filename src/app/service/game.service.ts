@@ -3,7 +3,7 @@ import { Http } from '@angular/http'
 
 import 'rxjs/add/operator/toPromise'
 
-import { GameTemplate, GameState, Game, Pagination } from '../models'
+import { GameTemplate, GameState, Game, Pagination, TokenInfo } from '../models'
 
 @Injectable()
 export class GameService {
@@ -29,11 +29,29 @@ export class GameService {
 	getGames(
 		pageSize: number,
 		pageIndex: number,
+		state?: GameState,
 		createdBy?: string,
 		player?: string,
-		gameTemplate?: string,
-		state?: GameState): Promise<Pagination<Game>>  {
-			return this.http.get(`${this.baseUrl}/games?pageSize=${pageSize}&pageIndex=${pageIndex}`)
+		gameTemplate?: string): Promise<Pagination<Game>>  {
+			let url = `${this.baseUrl}/games?pageSize=${pageSize}&pageIndex=${pageIndex}`
+
+			if (state != null) {
+				url += `&state=${GameState[state]}`
+			}
+
+			if (createdBy != null) {
+				url += `&createdBy=${createdBy}`
+			}
+
+			if (player != null) {
+				url += `&player=${player}`
+			}
+
+			if (gameTemplate != null) {
+				url += `&gameTemplate=${gameTemplate}`
+			}
+
+			return this.http.get(url)
 						.toPromise()
 						.then(res => {
 
@@ -44,7 +62,14 @@ export class GameService {
 							return new Pagination(res.json() as Game[], total, perPage, page)
 						})
 						.catch(this.handleError)
-		}
+	}
+
+	getToken(): Promise<TokenInfo> {
+		return Promise.resolve({
+			username: 'tme.vannimwegen@student.avans.nl',
+			token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.InRtZS52YW5uaW13ZWdlbkBzdHVkZW50LmF2YW5zLm5sIg.dUJSESU41icAYhvVnFgvlTrpl4-D2WTTsV3i_1FuZk8'
+		})
+	}
 
 	private handleError(error: any): Promise<any> {
 		console.error('An error occurred', error)

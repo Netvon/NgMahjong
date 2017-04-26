@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router'
 
-import { Game, Pagination, PaginationDetails } from '../../models'
+import { Game, Pagination, PaginationDetails, GameState } from '../../models'
 import { GameService } from '../../service/game.service'
 
 import 'rxjs/add/operator/switchMap'
@@ -50,7 +50,7 @@ export class GameOverviewComponent implements OnInit {
 				this.pageParam = (+params['page'] - 1) || 0
 				this.perPageParam = +params['perPage'] || 10
 
-				return this.gameService.getGames(this.perPageParam, this.pageParam)
+				return this.gameService.getGames(this.perPageParam, this.pageParam, GameState.open)
 			})
 
 		this.games.subscribe(x => {
