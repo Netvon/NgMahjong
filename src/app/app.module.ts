@@ -5,16 +5,25 @@ import { HttpModule } from '@angular/http'
 
 import { AppComponent } from './app.component'
 
+import { GameService } from './service/game.service'
+import { GameOverviewComponent } from './components'
+
+import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome'
+import { AppRoutingModule } from './app-routing.module'
+
 @NgModule({
 	declarations: [
-		AppComponent
+		AppComponent,
+		GameOverviewComponent,
 	],
 	imports: [
 		BrowserModule,
 		FormsModule,
-		HttpModule
+		AppRoutingModule,
+		HttpModule,
+		Angular2FontAwesomeModule
 	],
-	providers: [],
-	bootstrap: [AppComponent]
+	providers: [ GameService ],
+	bootstrap: [ AppComponent ]
 })
 export class AppModule { }

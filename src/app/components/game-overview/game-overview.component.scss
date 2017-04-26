@@ -1,0 +1,21 @@
+$main-color: #8aff95;
+
+.box.game {
+	padding-bottom: 0;
+	overflow: hidden;
+}
+
+.game-section {
+	margin-left: -1.25rem;
+    margin-right: -1.25rem;
+	margin-bottom: 0;
+    padding: 1.25rem;
+
+	&.main {
+		background: $main-color;
+	}
+
+	&.detail {
+		background: lighten($main-color, 20%)
+	}
+}
