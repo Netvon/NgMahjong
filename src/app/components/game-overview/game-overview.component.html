@@ -14,10 +14,19 @@
 	</nav>
 
 	<div *ngFor="let game of games | async" class="box game">
-		<h4 class="title is-4">
-			<span [title]="game.createdBy._id">{{ game.createdBy.name }}</span>
-			<span class="tag">{{ game.state | titlecase }}</span>
-		</h4>
+		<div class="level">
+			<div class="level-left">
+				<h4 class="title is-4 level-item">
+					<span [title]="game.createdBy._id">{{ game.createdBy.name }}</span>
+					<span class="tag">{{ game.state | titlecase }}</span>
+				</h4>
+			</div>
+			<div class="level-right">
+				<p class="title is-6 level-item">
+					<time title="{{game.createdOn | amCalendar}}">{{ game.createdOn | amTimeAgo }}</time>
+				</p>
+			</div>
+		</div>
 
 		<details>
 			<div class="content">
@@ -48,33 +57,33 @@
 			</div>
 			<div class="level-right" *ngIf="!game.startedOn">
 				<div class="block">
-					<a class="button is-large is-white">Join</a>
+					<a class="button is-large">Join</a>
 				</div>
 			</div>
 		</div>
 
-		<div class="level game-section detail">
+		<!--<div class="level game-section detail">
 			<div class="level-left">
 				<div class="level-item">
 					<div>
 						<p class="heading">Created On</p>
-						<p class="title is-6">{{ game.createdOn | date }} {{ game.createdOn | date:'jm' }}</p>
+						<p class="title is-6"><time title="{{game.createdOn | amCalendar}}">{{ game.createdOn | amTimeAgo }}</time></p>
 					</div>
 				</div>
 				<div class="level-item" *ngIf="game.startedOn">
 					<div>
 						<p class="heading">Started On</p>
-						<p class="title is-6">{{ game.startedOn | date }} {{ game.startedOn | date:'jm' }}</p>
+						<p class="title is-6">{{ game.startedOn | amTimeAgo }}</p>
 					</div>
 				</div>
 				<div class="level-item" *ngIf="game.endedOn">
 					<div>
 						<p class="heading">Ended On</p>
-						<p class="title is-6">{{ game.startedOn | date }} {{ game.startedOn | date:'jm' }}</p>
+						<p class="title is-6">{{ game.startedOn | amTimeAgo }}</p>
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>-->
 	</div>
 
 	<nav class="pagination is-centered" *ngIf="pagination">

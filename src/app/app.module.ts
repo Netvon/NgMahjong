@@ -3,12 +3,13 @@ import { NgModule } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
 
+import { MomentModule } from 'angular2-moment'
+
 import { AppComponent } from './app.component'
 
 import { GameService } from './service/game.service'
 import { GameOverviewComponent } from './components'
 
-import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome'
 import { AppRoutingModule } from './app-routing.module'
 
 @NgModule({
@@ -21,7 +22,7 @@ import { AppRoutingModule } from './app-routing.module'
 		FormsModule,
 		AppRoutingModule,
 		HttpModule,
-		Angular2FontAwesomeModule
+		MomentModule
 	],
 	providers: [ GameService ],
 	bootstrap: [ AppComponent ]
