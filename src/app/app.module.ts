@@ -8,14 +8,15 @@ import { MomentModule } from 'angular2-moment'
 import { AppComponent } from './app.component'
 
 import { GameService } from './service/game.service'
-import { GameOverviewComponent } from './components'
+import { GameOverviewComponent, GameDetailComponent } from './components'
 
 import { AppRoutingModule } from './app-routing.module'
 
 @NgModule({
 	declarations: [
 		AppComponent,
-		GameOverviewComponent
+		GameOverviewComponent,
+		GameDetailComponent
 	],
 	imports: [
 		BrowserModule,

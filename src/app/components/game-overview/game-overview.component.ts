@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router'
+import { Title } from '@angular/platform-browser'
 
 import { Game, Pagination, PaginationDetails, GameState } from '../../models'
 import { GameService } from '../../service/game.service'
@@ -31,10 +32,12 @@ export class GameOverviewComponent implements OnInit {
 	constructor(
 		private gameService: GameService,
 		private route: ActivatedRoute,
-		private router: Router
+		private router: Router,
+		private title: Title
 	) { }
 
 	ngOnInit() {
+
 		this.router.events.subscribe((evt) => {
 			if (!(evt instanceof NavigationEnd)) {
 				return
@@ -55,6 +58,8 @@ export class GameOverviewComponent implements OnInit {
 
 		this.games.subscribe(x => {
 			this.pagination = x as PaginationDetails
+
+			this.title.setTitle(`Game Overview - Page ${this.pagination.page} - Mahjong`)
 
 			this.isLoading = false
 		})

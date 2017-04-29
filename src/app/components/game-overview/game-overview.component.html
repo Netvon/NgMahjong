@@ -2,11 +2,11 @@
 	<nav class="pagination is-centered" *ngIf="pagination">
 		<a class="pagination-previous"
 			*ngIf="pagination.hasPrevious"
-			[routerLink]="['/games', { page: pagination.previous }]">Previous</a>
+			[routerLink]="['/games', pagination.previous ]">Previous</a>
 
 		<a class="pagination-next"
 			*ngIf="pagination.hasNext"
-			[routerLink]="['/games', { page: pagination.next }]">Next page</a>
+			[routerLink]="['/games', pagination.next]">Next page</a>
 
 		<ul class="pagination-list">
 			<li><a class="pagination-link">{{ pagination.pages }}</a></li>
@@ -28,11 +28,11 @@
 			</div>
 		</div>
 
-		<details>
+		<!--<details>
 			<div class="content">
 				<pre>{{ game | json }}</pre>
 			</div>
-		</details>
+		</details>-->
 
 		<!--<p>{{ game.createdOn | date }} {{ game.createdOn | date:'jm' }}</p>-->
 
@@ -56,8 +56,9 @@
 				</div>
 			</div>
 			<div class="level-right" *ngIf="!game.startedOn">
-				<div class="block">
-					<a class="button is-large">Join</a>
+				<div class="level">
+					<a class="button is-large level-item">Join</a>
+					<a class="button is-large level-item" [routerLink]="['/game', game.id]">View</a>
 				</div>
 			</div>
 		</div>
@@ -89,11 +90,11 @@
 	<nav class="pagination is-centered" *ngIf="pagination">
 		<a class="pagination-previous"
 			*ngIf="pagination.hasPrevious"
-			[routerLink]="['/games', { page: pagination.previous }]">Previous</a>
+			[routerLink]="['/games', pagination.previous]">Previous</a>
 
 		<a class="pagination-next"
 			*ngIf="pagination.hasNext"
-			[routerLink]="['/games', { page: pagination.next }]">Next page</a>
+			[routerLink]="['/games', pagination.next ]">Next page</a>
 
 		<ul class="pagination-list">
 			<!--<li><a class="pagination-link">1</a></li>

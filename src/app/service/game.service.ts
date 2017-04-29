@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core'
 import { Http } from '@angular/http'
 
 import 'rxjs/add/operator/toPromise'
+import 'rxjs/add/operator/catch'
+import 'rxjs/add/operator/map'
+import { Observable } from 'rxjs/Observable'
 
-import { GameTemplate, GameState, Game, Pagination, TokenInfo } from '../models'
+import { GameTemplate, GameState, Game, Pagination, TokenInfo, UserInGame } from '../models'
 
 @Injectable()
 export class GameService {
@@ -23,6 +26,24 @@ export class GameService {
 		return this.http.get(`${this.baseUrl}/gameTemplates/${id}`)
 						.toPromise()
 						.then(res => res.json() as GameTemplate)
+						.catch(this.handleError)
+	}
+
+	getGame(id: string): Promise<Game> {
+		const url = `${this.baseUrl}/games/${id}`
+
+		return this.http.get(url)
+						.toPromise()
+						.then(res => res.json() as Game)
+						.catch(this.handleError)
+	}
+
+	getPlayersInGame(id: string): Promise<UserInGame[]> {
+		const url = `${this.baseUrl}/games/${id}/players`
+
+		return this.http.get(url)
+						.toPromise()
+						.then(res => res.json() as UserInGame[])
 						.catch(this.handleError)
 	}
 
@@ -55,9 +76,9 @@ export class GameService {
 						.toPromise()
 						.then(res => {
 
-							const perPage = Number.parseInt(res.headers.get('x-page-size'))
-							const page = Number.parseInt(res.headers.get('x-page-index'))
-							const total = Number.parseInt(res.headers.get('x-total-count'))
+							const perPage 	= +res.headers.get('x-page-size')
+							const page 		= +res.headers.get('x-page-index')
+							const total 	= +res.headers.get('x-total-count')
 
 							return new Pagination(res.json() as Game[], total, perPage, page)
 						})

@@ -1,0 +1,24 @@
+<h3 class="subtitle">Template</h3>
+<h2 class="title">{{ game?.gameTemplate.id }}</h2>
+
+
+<div class="box">
+	<h4 class="title is-4">Players</h4>
+	<ul>
+		<li *ngFor="let user of users">
+			<span>{{ user.name }} <span *ngIf="user.name === game.createdBy.name">(owner)</span></span>
+			<small>{{ user._id }}</small>
+		</li>
+	</ul>
+</div>
+
+<details>
+	<summary>Raw JSON</summary>
+	<div class="content">
+		<pre>{{ game | json }}</pre>
+		<pre>{{ users | json}}</pre>
+	</div>
+</details>
+
+
+
