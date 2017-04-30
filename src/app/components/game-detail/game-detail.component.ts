@@ -16,8 +16,8 @@ import { Observable } from 'rxjs/Observable'
 })
 export class GameDetailComponent implements OnInit {
 
-	game: Game
-	users: UserInGame[]
+	game: Observable<Game>
+	users: Observable<UserInGame[]>
 
 	constructor(
 		private gameService: GameService,
@@ -27,19 +27,19 @@ export class GameDetailComponent implements OnInit {
 
 	ngOnInit() {
 
-		this.route.params
+		this.users = this.route.params
 			.switchMap((params: Params) => {
-				return Promise.all([
-					this.gameService.getGame(params['id']),
-					this.gameService.getPlayersInGame(params['id'])
-				])
+				return this.gameService.getPlayersInGame(params['id'])
 			})
-			.subscribe(results => {
-				this.game = results[0]
-				this.users = results[1]
 
-				this.title.setTitle(`${this.game.gameTemplate.id} by ${this.game.createdBy.name} - Mahjong`)
+		this.game = this.route.params
+			.switchMap((params: Params) => {
+				return this.gameService.getGame(params['id'])
 			})
+
+		this.game.subscribe(results => {
+			this.title.setTitle(`${results.gameTemplate.id} by ${results.createdBy.name} - Mahjong`)
+		})
 	}
 
 }

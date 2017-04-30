@@ -1,22 +1,33 @@
-<div>
-	<nav class="pagination is-centered" *ngIf="pagination">
+<ng-template #loading>
+	<div class="level">
+		<div class="level-item">
+			<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>
+</ng-template>
+
+<div *ngIf="!isLoading; else loading"></div>
+
+<div *ngIf="games | async; else loading; let lGames">
+	<nav class="pagination is-centered top-nav">
 		<a class="pagination-previous"
-			*ngIf="pagination.hasPrevious"
-			[routerLink]="['/games', pagination.previous ]">Previous</a>
+			*ngIf="lGames.hasPrevious"
+			[routerLink]="['/games', lGames.previous ]">Previous</a>
 
 		<a class="pagination-next"
-			*ngIf="pagination.hasNext"
-			[routerLink]="['/games', pagination.next]">Next page</a>
+			*ngIf="lGames.hasNext"
+			[routerLink]="['/games', lGames.next]">Next page</a>
 
 		<ul class="pagination-list">
-			<li><a class="pagination-link">{{ pagination.pages }}</a></li>
+			<li><a class="pagination-link">{{ lGames.pages }}</a></li>
 		</ul>
 	</nav>
 
-	<div *ngFor="let game of games | async" class="box game">
+	<div *ngFor="let game of lGames.items" class="box">
 		<div class="level">
 			<div class="level-left">
-				<h4 class="title is-4 level-item">
+				<h4 class="title is-4">
 					<span [title]="game.createdBy._id">{{ game.createdBy.name }}</span>
 					<span class="tag">{{ game.state | titlecase }}</span>
 				</h4>
@@ -36,29 +47,29 @@
 
 		<!--<p>{{ game.createdOn | date }} {{ game.createdOn | date:'jm' }}</p>-->
 
-		<div class="level game-section main">
-			<div class="level-item has-text-centered">
+		<div class="columns">
+			<div class="column has-text-centered">
 				<div>
 					<p class="heading">Type</p>
 					<p class="title">{{ game.gameTemplate.id }}</p>
 				</div>
 			</div>
-			<div class="level-item has-text-centered">
+			<div class="column has-text-centered">
 				<div>
 					<p class="heading">Current Players</p>
 					<p class="title">{{ game.players.length }} / {{ game.maxPlayers }}</p>
 				</div>
 			</div>
-			<div class="level-item has-text-centered">
+			<div class="column has-text-centered">
 				<div>
 					<p class="heading">Min Players</p>
 					<p class="title">{{ game.minPlayers }}</p>
 				</div>
 			</div>
-			<div class="level-right" *ngIf="!game.startedOn">
-				<div class="level">
-					<a class="button is-large level-item">Join</a>
-					<a class="button is-large level-item" [routerLink]="['/game', game.id]">View</a>
+			<div class="column" >
+				<div class="block">
+					<a class="button is-large" *ngIf="!game.startedOn">Join</a>
+					<a class="button is-large" [routerLink]="['/game', game.id]">View</a>
 				</div>
 			</div>
 		</div>
@@ -87,14 +98,14 @@
 		</div>-->
 	</div>
 
-	<nav class="pagination is-centered" *ngIf="pagination">
+	<nav class="pagination is-centered" >
 		<a class="pagination-previous"
 			*ngIf="pagination.hasPrevious"
-			[routerLink]="['/games', pagination.previous]">Previous</a>
+			[routerLink]="['/games', lGames.previous]">Previous</a>
 
 		<a class="pagination-next"
 			*ngIf="pagination.hasNext"
-			[routerLink]="['/games', pagination.next ]">Next page</a>
+			[routerLink]="['/games', lGames.next ]">Next page</a>
 
 		<ul class="pagination-list">
 			<!--<li><a class="pagination-link">1</a></li>
@@ -103,7 +114,7 @@
 			<li><a class="pagination-link is-current">{{ pagination.page }}</a></li>
 			<li><a class="pagination-link">47</a></li>
 			<li *ngIf="pagination.pages > 5"><span class="pagination-ellipsis">&hellip;</span></li>-->
-			<li><a class="pagination-link">{{ pagination.pages }}</a></li>
+			<li><a class="pagination-link">{{ lGames.pages }}</a></li>
 		</ul>
 	</nav>
 </div>

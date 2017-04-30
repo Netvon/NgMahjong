@@ -1,24 +1,34 @@
-<h3 class="subtitle">Template</h3>
-<h2 class="title">{{ game?.gameTemplate.id }}</h2>
+
+<ng-template #loading>
+	<div>Fetching ...</div>
+</ng-template>
+
+<div *ngIf="game | async; else loading; let lGame">
+	<h3 class="subtitle">Template</h3>
+	<h2 class="title">{{ lGame.gameTemplate.id }}</h2>
 
 
-<div class="box">
-	<h4 class="title is-4">Players</h4>
-	<ul>
-		<li *ngFor="let user of users">
-			<span>{{ user.name }} <span *ngIf="user.name === game.createdBy.name">(owner)</span></span>
-			<small>{{ user._id }}</small>
-		</li>
-	</ul>
-</div>
+	<div class="box" *ngIf="users | async; else loading; let lUsers">
+		<h4 class="title is-4">Players</h4>
+		<ul>
+			<li *ngFor="let user of lUsers">
+				<span>{{ user.name }} <span *ngIf="user.name === lGame.createdBy.name">(owner)</span></span>
+				<small>{{ user._id }}</small>
+			</li>
+		</ul>
 
-<details>
-	<summary>Raw JSON</summary>
-	<div class="content">
-		<pre>{{ game | json }}</pre>
-		<pre>{{ users | json}}</pre>
+		<details>
+			<summary>Raw JSON</summary>
+			<div class="content">
+				<pre>{{ lUsers | json}}</pre>
+			</div>
+		</details>
 	</div>
-</details>
 
-
-
+	<details>
+		<summary>Raw JSON</summary>
+		<div class="content">
+			<pre>{{ lGame | json}}</pre>
+		</div>
+	</details>
+</div>

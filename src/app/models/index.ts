@@ -14,6 +14,8 @@ import { GameState } from './game/game-state.enum'
 import { Pagination } from './pagination/pagination.model'
 import { PaginationDetails } from './pagination/pagination-details.model'
 
+import { ApiResponse } from './api/api-response.model'
+
 export {
 	User,
 	UserInGame,
@@ -26,5 +28,6 @@ export {
 	PostMatch,
 	Pagination,
 	PaginationDetails,
-	TokenInfo
+	TokenInfo,
+	ApiResponse
 }

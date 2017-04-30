@@ -6,6 +6,7 @@ import { Game, Pagination, PaginationDetails, GameState } from '../../models'
 import { GameService } from '../../service/game.service'
 
 import 'rxjs/add/operator/switchMap'
+import 'rxjs/add/operator/filter'
 import { Observable } from 'rxjs/Observable'
 
 @Component({
@@ -53,15 +54,25 @@ export class GameOverviewComponent implements OnInit {
 				this.pageParam = (+params['page'] - 1) || 0
 				this.perPageParam = +params['perPage'] || 10
 
-				return this.gameService.getGames(this.perPageParam, this.pageParam, GameState.open)
+				if (this.pageParam < 0) {
+					this.router.navigate(['/games', 1])
+				}
+
+				return this.gameService.getGames(this.perPageParam, this.pageParam)
 			})
 
 		this.games.subscribe(x => {
 			this.pagination = x as PaginationDetails
 
+			if (this.pageParam > this.pagination.pages) {
+				this.router.navigate(['/games', this.pagination.pages])
+			}
+
 			this.title.setTitle(`Game Overview - Page ${this.pagination.page} - Mahjong`)
 
 			this.isLoading = false
+		}, error => {
+			console.log(error)
 		})
 	}
 

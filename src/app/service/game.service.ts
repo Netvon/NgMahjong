@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
-import { Http } from '@angular/http'
+import { Http, RequestOptions } from '@angular/http'
 
 import 'rxjs/add/operator/toPromise'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable'
 
-import { GameTemplate, GameState, Game, Pagination, TokenInfo, UserInGame } from '../models'
+import { GameTemplate, GameState, Game, Pagination, TokenInfo, UserInGame, ApiResponse } from '../models'
 
 @Injectable()
 export class GameService {
@@ -15,35 +15,31 @@ export class GameService {
 
 	constructor(private http: Http) { }
 
-	getTemplates(): Promise<GameTemplate[]> {
+	getTemplates(): Observable<GameTemplate[]> {
 		return this.http.get(`${this.baseUrl}/gameTemplates`)
-						.toPromise()
-						.then(res => res.json() as GameTemplate[])
+						.map(res => res.json() as GameTemplate[])
 						.catch(this.handleError)
 	}
 
-	getTemplate(id: string): Promise<GameTemplate> {
+	getTemplate(id: string): Observable<GameTemplate> {
 		return this.http.get(`${this.baseUrl}/gameTemplates/${id}`)
-						.toPromise()
-						.then(res => res.json() as GameTemplate)
+						.map(res => res.json() as GameTemplate)
 						.catch(this.handleError)
 	}
 
-	getGame(id: string): Promise<Game> {
+	getGame(id: string): Observable<Game> {
 		const url = `${this.baseUrl}/games/${id}`
 
 		return this.http.get(url)
-						.toPromise()
-						.then(res => res.json() as Game)
+						.map(res => res.json() as Game)
 						.catch(this.handleError)
 	}
 
-	getPlayersInGame(id: string): Promise<UserInGame[]> {
+	getPlayersInGame(id: string): Observable<UserInGame[]> {
 		const url = `${this.baseUrl}/games/${id}/players`
 
 		return this.http.get(url)
-						.toPromise()
-						.then(res => res.json() as UserInGame[])
+						.map(res => res.json() as UserInGame[])
 						.catch(this.handleError)
 	}
 
@@ -53,7 +49,7 @@ export class GameService {
 		state?: GameState,
 		createdBy?: string,
 		player?: string,
-		gameTemplate?: string): Promise<Pagination<Game>>  {
+		gameTemplate?: string): Observable<Pagination<Game>>  {
 			let url = `${this.baseUrl}/games?pageSize=${pageSize}&pageIndex=${pageIndex}`
 
 			if (state != null) {
@@ -73,14 +69,31 @@ export class GameService {
 			}
 
 			return this.http.get(url)
-						.toPromise()
-						.then(res => {
+						// .toPromise()
+						.map(res => {
 
 							const perPage 	= +res.headers.get('x-page-size')
 							const page 		= +res.headers.get('x-page-index')
 							const total 	= +res.headers.get('x-total-count')
 
 							return new Pagination(res.json() as Game[], total, perPage, page)
+						})
+						.catch(this.handleError)
+	}
+
+	startGame(id: string, token: TokenInfo): Promise<ApiResponse> {
+		const url = `${this.baseUrl}/games/${id}`
+
+		const headers = new Headers(token.toHeaders())
+		const options = new RequestOptions(headers)
+
+		return this.http.post(url, null, options)
+						.toPromise()
+						.then(res => {
+							return {
+								message: res.json().message as string || res.json() as string,
+								status: res.status
+							}
 						})
 						.catch(this.handleError)
 	}
