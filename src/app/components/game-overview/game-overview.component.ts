@@ -6,7 +6,6 @@ import { Game, Pagination, PaginationDetails, GameState } from '../../models'
 import { GameService } from '../../service/game.service'
 
 import 'rxjs/add/operator/switchMap'
-import 'rxjs/add/operator/filter'
 import { Observable } from 'rxjs/Observable'
 
 @Component({
@@ -38,7 +37,6 @@ export class GameOverviewComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-
 		this.router.events.subscribe((evt) => {
 			if (!(evt instanceof NavigationEnd)) {
 				return
@@ -58,7 +56,7 @@ export class GameOverviewComponent implements OnInit {
 					this.router.navigate(['/games', 1])
 				}
 
-				return this.gameService.getGames(this.perPageParam, this.pageParam)
+				return this.gameService.getGames(this.perPageParam, this.pageParam, GameState.open)
 			})
 
 		this.games.subscribe(x => {
@@ -74,6 +72,21 @@ export class GameOverviewComponent implements OnInit {
 		}, error => {
 			console.log(error)
 		})
+	}
+
+	joinClicked(event: MouseEvent, game: Game) {
+
+		const target = event.currentTarget as HTMLAnchorElement
+		target.classList.add('is-loading')
+
+		this.gameService.getToken()
+						.switchMap(token => {
+							return this.gameService.joinGame(game, token)
+						})
+						.subscribe(x => {
+							target.classList.remove('is-loading')
+							console.log(x)
+						}, error => target.classList.remove('is-loading'))
 	}
 
 }

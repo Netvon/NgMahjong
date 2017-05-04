@@ -20,7 +20,7 @@
 			[routerLink]="['/games', lGames.next]">Next page</a>
 
 		<ul class="pagination-list">
-			<li><a class="pagination-link">{{ lGames.pages }}</a></li>
+			<li *ngFor="let page of lGames.pagesArray"><a class="pagination-link" [routerLink]="['/games', page]">{{ page }}</a></li>
 		</ul>
 	</nav>
 
@@ -68,7 +68,7 @@
 			</div>
 			<div class="column" >
 				<div class="block">
-					<a class="button is-large" *ngIf="!game.startedOn">Join</a>
+					<a class="button is-large" *ngIf="!game.startedOn" (click)="joinClicked($event, game)">Join</a>
 					<a class="button is-large" [routerLink]="['/game', game.id]">View</a>
 				</div>
 			</div>
@@ -114,7 +114,7 @@
 			<li><a class="pagination-link is-current">{{ pagination.page }}</a></li>
 			<li><a class="pagination-link">47</a></li>
 			<li *ngIf="pagination.pages > 5"><span class="pagination-ellipsis">&hellip;</span></li>-->
-			<li><a class="pagination-link">{{ lGames.pages }}</a></li>
+			<li *ngFor="let page of lGames.pagesArray"><a class="pagination-link" [routerLink]="['/games', page]">{{ page }}</a></li>
 		</ul>
 	</nav>
 </div>

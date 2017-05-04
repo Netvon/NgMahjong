@@ -4,9 +4,10 @@ import { Http, RequestOptions } from '@angular/http'
 import 'rxjs/add/operator/toPromise'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
+import 'rxjs/add/observable/of'
 import { Observable } from 'rxjs/Observable'
 
-import { GameTemplate, GameState, Game, Pagination, TokenInfo, UserInGame, ApiResponse } from '../models'
+import { GameTemplate, GameState, Game, Pagination, TokenInfo, UserInGame, ApiResponse, User, PostGame } from '../models'
 
 @Injectable()
 export class GameService {
@@ -72,8 +73,8 @@ export class GameService {
 						// .toPromise()
 						.map(res => {
 
-							const perPage 	= +res.headers.get('x-page-size')
-							const page 		= +res.headers.get('x-page-index')
+							const perPage	= +res.headers.get('x-page-size')
+							const page		= +res.headers.get('x-page-index')
 							const total 	= +res.headers.get('x-total-count')
 
 							return new Pagination(res.json() as Game[], total, perPage, page)
@@ -81,28 +82,68 @@ export class GameService {
 						.catch(this.handleError)
 	}
 
-	startGame(id: string, token: TokenInfo): Promise<ApiResponse> {
-		const url = `${this.baseUrl}/games/${id}`
+	joinGame(game: Game, token: TokenInfo): Observable<ApiResponse> {
+		const url = `${this.baseUrl}/games/${game.id}/players`
 
-		const headers = new Headers(token.toHeaders())
-		const options = new RequestOptions(headers)
+		const options = new RequestOptions({ headers: token.toHeaders() })
 
 		return this.http.post(url, null, options)
-						.toPromise()
-						.then(res => {
+						.map(res => {
+							const json = res.json()
+
+							game.players.push(new User(token.username, null))
+
 							return {
-								message: res.json().message as string || res.json() as string,
+								message: json.message as string || json as string,
 								status: res.status
 							}
 						})
 						.catch(this.handleError)
 	}
 
-	getToken(): Promise<TokenInfo> {
-		return Promise.resolve({
-			username: 'tme.vannimwegen@student.avans.nl',
-			token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.InRtZS52YW5uaW13ZWdlbkBzdHVkZW50LmF2YW5zLm5sIg.dUJSESU41icAYhvVnFgvlTrpl4-D2WTTsV3i_1FuZk8'
-		})
+	startGame(id: string, token: TokenInfo): Observable<ApiResponse> {
+		const url = `${this.baseUrl}/games/${id}`
+
+		const options = new RequestOptions({ headers: token.toHeaders() })
+
+		return this.http.post(url, null, options)
+						.map(res => {
+							const json = res.json()
+
+							return {
+								message: json.message as string || json as string,
+								status: res.status
+							}
+						})
+						.catch(this.handleError)
+	}
+
+	createGame(game: PostGame, token: TokenInfo): Observable<ApiResponse> {
+		const url = `${this.baseUrl}/games/`
+		const auth = token.toHeaders()
+		auth.append('Content-Type', 'application/json')
+
+		const options = new RequestOptions({ headers: auth })
+
+		return this.http.post(url, game, options)
+						.map(res => {
+							const json = res.json()
+
+							return {
+								message: json.message as string || json as string,
+								status: res.status
+							}
+						})
+						.catch(this.handleError)
+	}
+
+	getToken(): Observable<TokenInfo> {
+
+		const info: TokenInfo = new TokenInfo()
+		info.token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.InRtZS52YW5uaW13ZWdlbkBzdHVkZW50LmF2YW5zLm5sIg.dUJSESU41icAYhvVnFgvlTrpl4-D2WTTsV3i_1FuZk8'
+		info.username = 'tme.vannimwegen@student.avans.nl'
+
+		return Observable.of(info)
 	}
 
 	private handleError(error: any): Promise<any> {

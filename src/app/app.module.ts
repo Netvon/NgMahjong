@@ -8,7 +8,7 @@ import { MomentModule } from 'angular2-moment'
 import { AppComponent } from './app.component'
 
 import { GameService } from './service/game.service'
-import { GameOverviewComponent, GameDetailComponent } from './components'
+import { GameOverviewComponent, GameDetailComponent, GameCreateComponent } from './components'
 
 import { AppRoutingModule } from './app-routing.module'
 
@@ -16,7 +16,8 @@ import { AppRoutingModule } from './app-routing.module'
 	declarations: [
 		AppComponent,
 		GameOverviewComponent,
-		GameDetailComponent
+		GameDetailComponent,
+		GameCreateComponent
 	],
 	imports: [
 		BrowserModule,

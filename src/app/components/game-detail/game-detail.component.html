@@ -1,4 +1,3 @@
-
 <ng-template #loading>
 	<div>Fetching ...</div>
 </ng-template>
@@ -23,6 +22,8 @@
 				<pre>{{ lUsers | json}}</pre>
 			</div>
 		</details>
+
+		<a class="button" (click)="startGame($event, lGame)">Start</a>
 	</div>
 
 	<details>

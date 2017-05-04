@@ -23,5 +23,9 @@ export class PaginationDetails {
 		return this.pageZeroBased + 1
 	}
 
+	get pagesArray(): number[] {
+		return Array(this.pages).fill(undefined).map((x, i) => i + 1)
+	}
+
 	constructor(public total: number, public perPage: number, public pageZeroBased: number) { }
 }

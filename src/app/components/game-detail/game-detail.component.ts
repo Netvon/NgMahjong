@@ -42,4 +42,17 @@ export class GameDetailComponent implements OnInit {
 		})
 	}
 
+	startGame(event, game: Game) {
+		const target = event.currentTarget as HTMLAnchorElement
+		target.classList.add('is-loading')
+
+		this.gameService.getToken()
+			.switchMap(token => {
+				return this.gameService.startGame(game.id, token)
+			})
+			.subscribe(x => {
+				target.classList.remove('is-loading')
+			})
+	}
+
 }

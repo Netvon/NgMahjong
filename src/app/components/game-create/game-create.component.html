@@ -1,0 +1,35 @@
+<ng-template #loading>
+	<div>Fetching ...</div>
+</ng-template>
+
+<div *ngIf="gameTemplates | async; else loading; let templates">
+	<div class="field">
+		<p class="control">
+			<span class="select">
+				<select [(ngModel)]="selectedTemplate">
+					<option *ngFor="let template of templates" [ngValue]="template">
+						{{ template.id }}
+					</option>
+				</select>
+			</span>
+		</p>
+	</div>
+
+	<div class="field">
+		<p class="control">
+			<input class="input" type="number" [(ngModel)]="minPlayers" min="1" placeholder="Min Players" pattern="[0-9]+"/>
+		</p>
+	</div>
+
+	<div class="field">
+		<p class="control">
+			<input class="input" type="number" [(ngModel)]="maxPlayers" min="1" placeholder="Max Players" pattern="[0-9]+"/>
+		</p>
+	</div>
+
+	<div class="field">
+		<p class="control">
+			<a (click)="createGame($event)" class="button is-primary">Create</a>
+		</p>
+	</div>
+</div>
