@@ -91,4 +91,8 @@ export class GameOverviewComponent implements OnInit {
 						}, error => target.classList.remove('is-loading'))
 	}
 
+	getPaginationUrl(){
+		return (this.overviewState == GameState.open)?'/opengames':'/playinggames';
+	}
+
 }

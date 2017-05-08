@@ -10,21 +10,8 @@
 <div *ngIf="!isLoading; else loading"></div>
 
 <div *ngIf="games | async; else loading; let lGames">
-	<nav class="pagination is-centered top-nav">
-		<a class="pagination-previous"
-			*ngIf="lGames.hasPrevious"
-			[routerLink]="['/games', lGames.previous ]">Previous</a>
 
-		<a class="pagination-next"
-			*ngIf="lGames.hasNext"
-			[routerLink]="['/games', lGames.next]">Next page</a>
-
-		<ul class="pagination-list">
-			<li *ngFor="let page of lGames.pagesArray">
-				<a class="pagination-link" [routerLink]="['/games', page]" [routerLinkActive]="'is-current'">{{ page }}</a>
-			</li>
-		</ul>
-	</nav>
+	<app-pagination [list]="lGames" [url]="getPaginationUrl()" [pagination]="pagination"></app-pagination>
 
 	<div *ngFor="let game of lGames.items" class="box">
 		<div class="level">
@@ -100,25 +87,6 @@
 		</div>-->
 	</div>
 
-	<nav class="pagination is-centered" >
-		<a class="pagination-previous"
-			*ngIf="pagination.hasPrevious"
-			[routerLink]="['/games', lGames.previous]">Previous</a>
+	<app-pagination [list]="lGames" [url]="'/opengames'" [pagination]="pagination"></app-pagination>
 
-		<a class="pagination-next"
-			*ngIf="pagination.hasNext"
-			[routerLink]="['/games', lGames.next ]">Next page</a>
-
-		<ul class="pagination-list">
-			<!--<li><a class="pagination-link">1</a></li>
-			<li *ngIf="pagination.pages > 5"><span class="pagination-ellipsis">&hellip;</span></li>
-			<li><a class="pagination-link">45</a></li>
-			<li><a class="pagination-link is-current">{{ pagination.page }}</a></li>
-			<li><a class="pagination-link">47</a></li>
-			<li *ngIf="pagination.pages > 5"><span class="pagination-ellipsis">&hellip;</span></li>-->
-			<li *ngFor="let page of lGames.pagesArray">
-				<a class="pagination-link" [routerLink]="['/games', page]" [routerLinkActive]="'is-current'">{{ page }}</a>
-			</li>
-		</ul>
-	</nav>
 </div>

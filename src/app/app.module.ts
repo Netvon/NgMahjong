@@ -12,6 +12,7 @@ import { GameOverviewComponent, GameDetailComponent, GameCreateComponent } from 
 
 import { AppRoutingModule } from './app-routing.module';
 import { GameTemplateViewComponent } from './components/game-template-view/game-template-view.component'
+import {PaginationComponent} from "./components/pagination/pagination.component";
 
 @NgModule({
 	declarations: [
@@ -19,7 +20,8 @@ import { GameTemplateViewComponent } from './components/game-template-view/game-
 		GameOverviewComponent,
 		GameDetailComponent,
 		GameCreateComponent,
-		GameTemplateViewComponent
+		GameTemplateViewComponent,
+		PaginationComponent
 	],
 	imports: [
 		BrowserModule,
