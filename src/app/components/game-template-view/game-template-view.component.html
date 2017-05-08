@@ -41,12 +41,28 @@
 
 </svg>
 <div>
-	<div class="field">
-		<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileXSize"/>
+	<div class="field is-grouped">
+		<p class="control">
+			<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileXSize"/>
+			<label>tileXSize: {{ tileXSize }}</label>
+		</p>
+
+		<p class="control">
+			<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileYSize"/>
+			<label>tileYSize: {{ tileYSize }}</label>
+		</p>
 	</div>
 
-	<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileYSize"/>
+	<div class="field is-grouped">
+		<p class="control">
+			<input type="range" step="0.1" [attr.min]="-tileXSize" [attr.max]="tileXSize" [(ngModel)]="tileZOffsetX"/>
+			<label>tileZOffsetX: {{ tileZOffsetX }}</label>
+		</p>
+		<p class="control">
+			<input type="range" step="0.1" [attr.min]="-tileYSize" [attr.max]="tileYSize" [(ngModel)]="tileZOffsetY"/>
+			<label>tileZOffsetY: {{ tileZOffsetY }}</label>
+		</p>
+	</div>
 	<input type="range" step="0.01" min="0" [attr.max]="tileXSize/2" [(ngModel)]="tileRadius"/>
-	<input type="range" step="0.1" [attr.min]="-tileXSize" [attr.max]="tileXSize" [(ngModel)]="tileZOffsetX"/>
-	<input type="range" step="0.1" [attr.min]="-tileYSize" [attr.max]="tileYSize" [(ngModel)]="tileZOffsetY"/>
+
 </div>
