@@ -10,14 +10,16 @@ import { AppComponent } from './app.component'
 import { GameService } from './service/game.service'
 import { GameOverviewComponent, GameDetailComponent, GameCreateComponent } from './components'
 
-import { AppRoutingModule } from './app-routing.module'
+import { AppRoutingModule } from './app-routing.module';
+import { GameTemplateViewComponent } from './components/game-template-view/game-template-view.component'
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		GameOverviewComponent,
 		GameDetailComponent,
-		GameCreateComponent
+		GameCreateComponent,
+		GameTemplateViewComponent
 	],
 	imports: [
 		BrowserModule,

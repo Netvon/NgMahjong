@@ -18,13 +18,13 @@ export class GameService {
 
 	getTemplates(): Observable<GameTemplate[]> {
 		return this.http.get(`${this.baseUrl}/gameTemplates`)
-						.map(res => res.json() as GameTemplate[])
+						.map(res => res.json().map(x => new GameTemplate().fromJson(x)))
 						.catch(this.handleError)
 	}
 
 	getTemplate(id: string): Observable<GameTemplate> {
 		return this.http.get(`${this.baseUrl}/gameTemplates/${id}`)
-						.map(res => res.json() as GameTemplate)
+						.map(res => new GameTemplate().fromJson(res.json()))
 						.catch(this.handleError)
 	}
 
@@ -32,7 +32,7 @@ export class GameService {
 		const url = `${this.baseUrl}/games/${id}`
 
 		return this.http.get(url)
-						.map(res => res.json() as Game)
+						.map(res => new Game().fromJSON(res.json()))
 						.catch(this.handleError)
 	}
 
@@ -77,7 +77,16 @@ export class GameService {
 							const page		= +res.headers.get('x-page-index')
 							const total 	= +res.headers.get('x-total-count')
 
-							return new Pagination(res.json() as Game[], total, perPage, page)
+							const games: Game[] = new Array<Game>()
+
+							for (const game of res.json() as Game[]) {
+								const g = new Game()
+								g.fromJSON(game)
+
+								games.push(g)
+							}
+
+							return new Pagination(games, total, perPage, page)
 						})
 						.catch(this.handleError)
 	}

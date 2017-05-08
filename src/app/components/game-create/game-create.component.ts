@@ -28,6 +28,9 @@ export class GameCreateComponent implements OnInit {
 	ngOnInit() {
 		this.title.setTitle('Create Game - Mahjong')
 		this.gameTemplates = this.gameService.getTemplates()
+		this.gameTemplates.subscribe(x => {
+			this.selectedTemplate = x[0]
+		})
 	}
 
 	createGame(event) {

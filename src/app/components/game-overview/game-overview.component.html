@@ -50,6 +50,14 @@
 		<div class="columns">
 			<div class="column has-text-centered">
 				<div>
+					<app-game-template-view
+						[gameTemplateId]="game.gameTemplate.id"
+						tileStroke="none"
+						tileRadius="none"></app-game-template-view>
+				</div>
+			</div>
+			<div class="column has-text-centered">
+				<div>
 					<p class="heading">Type</p>
 					<p class="title">{{ game.gameTemplate.id }}</p>
 				</div>
@@ -68,7 +76,7 @@
 			</div>
 			<div class="column" >
 				<div class="block">
-					<a class="button is-large" *ngIf="!game.startedOn" (click)="joinClicked($event, game)">Join</a>
+					<a class="button is-large" *ngIf="game.canJoin" (click)="joinClicked($event, game)">Join</a>
 					<a class="button is-large" [routerLink]="['/game', game.id]">View</a>
 				</div>
 			</div>

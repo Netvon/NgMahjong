@@ -6,4 +6,9 @@ export class User {
 		this._id = _id
 		this.name = name
 	}
+
+	fromJson(json: { _id: string, name: string}) {
+		this._id = json._id
+		this.name = json.name
+	}
 }

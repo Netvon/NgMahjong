@@ -15,6 +15,15 @@
 		</p>
 	</div>
 
+	<pre>depth {{ selectedTemplate.depth }}</pre>
+	<app-game-template-view
+		*ngIf="selectedTemplate"
+		[gameTemplateId]="selectedTemplate.id"
+		tileStroke="#505050"
+		tileStrokeWidth="0.01"
+		>
+	</app-game-template-view>
+
 	<div class="field">
 		<p class="control">
 			<input class="input" type="number" [(ngModel)]="minPlayers" min="1" placeholder="Min Players" pattern="[0-9]+"/>

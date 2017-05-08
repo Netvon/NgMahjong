@@ -52,7 +52,8 @@ export class GameDetailComponent implements OnInit {
 			})
 			.subscribe(x => {
 				target.classList.remove('is-loading')
-			})
+			},
+			error => target.classList.remove('is-loading'))
 	}
 
 }

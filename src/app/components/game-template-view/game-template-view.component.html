@@ -1,0 +1,52 @@
+<ng-template #loading>
+	<div class="level">
+		<div class="level-item">
+			<i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>
+</ng-template>
+
+<svg *ngIf="gameTemplate; else loading" [attr.viewBox]="viewBox" [classList]="containerClass" xmlns="http://www.w3.org/2000/svg">
+	<!--<svg:defs>
+		<svg:filter id="f1" x="0" y="0" width="200%" height="200%">
+			<svg:feOffset result="offOut" in="SourceGraphic" [attr.dx]="-(tileZOffsetX/2)" [attr.dy]="-(tileZOffsetY/2)" />
+			<svg:feBlend in="SourceGraphic" in2="offOut" mode="normal" />
+		</svg:filter>
+	</svg:defs>-->
+	<svg:g *ngFor="let group of zGroupedTiles; let i = index"
+		[attr.data-z]="i"
+		[attr.transform]="'translate(' + (tileZOffsetX * i) + ',' + (tileZOffsetY * i) + ')'">
+		<!--<svg:g *ngFor="let tile of group">-->t
+
+			<svg:rect *ngFor="let tile of group"
+
+				[attr.x]="tile.x"
+				[attr.y]="tile.y"
+				[attr.data-id]="tile._id"
+				[attr.width]="tileXSize"
+				[attr.height]="tileYSize"
+				[attr.ry]="tileRadius"
+				[attr.stroke]="tileStroke"
+				[attr.stroke-width]="tileStrokeWidth"
+				[classList]="tileClass"/>
+			<!--<svg:text
+				text-anchor="middle"
+				[attr.x]="tile.x + .5"
+				[attr.y]="tile.y + .70"
+				font-size=".5"
+				style="stroke-width: 0; fill: darkslategrey">{{ tile._id | slice:22:24 }}</svg:text>-->
+		<!--</svg:g>-->
+	</svg:g>
+
+</svg>
+<div>
+	<div class="field">
+		<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileXSize"/>
+	</div>
+
+	<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileYSize"/>
+	<input type="range" step="0.01" min="0" [attr.max]="tileXSize/2" [(ngModel)]="tileRadius"/>
+	<input type="range" step="0.1" [attr.min]="-tileXSize" [attr.max]="tileXSize" [(ngModel)]="tileZOffsetX"/>
+	<input type="range" step="0.1" [attr.min]="-tileYSize" [attr.max]="tileYSize" [(ngModel)]="tileZOffsetY"/>
+</div>
