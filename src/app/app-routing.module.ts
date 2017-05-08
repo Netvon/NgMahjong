@@ -4,11 +4,12 @@ import { RouterModule, Routes } from '@angular/router'
 import { GameOverviewComponent, GameDetailComponent, GameCreateComponent } from './components'
 
 const routes: Routes = [
-	{ path: 'games/:page', component: GameOverviewComponent },
+	{ path: 'opengames/:page', component: GameOverviewComponent },
+	{ path: 'playinggames/:page', component: GameOverviewComponent },
 	{ path: 'create-game', component: GameCreateComponent },
 	{ path: 'game/:id', component: GameDetailComponent },
-	{ path: 'games',   redirectTo: '/games/1', pathMatch: 'full' },
-	{ path: '',   redirectTo: '/games', pathMatch: 'full' },
+	{ path: 'opengames',   redirectTo: '/opengames/1', pathMatch: 'full' },
+	{ path: 'playinggames',   redirectTo: '/playinggames/1', pathMatch: 'full' },
 ]
 
 @NgModule({

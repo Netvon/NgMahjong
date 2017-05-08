@@ -18,6 +18,7 @@ export class GameOverviewComponent implements OnInit {
 	isLoading = true
 
 	games: Observable<Pagination<Game>>
+	overviewState: GameState
 	pagination: PaginationDetails
 
 	private pageParam: number
@@ -48,15 +49,16 @@ export class GameOverviewComponent implements OnInit {
 		this.games = this.route.params
 			.switchMap((params: Params) => {
 				this.isLoading = true
-
 				this.pageParam = (+params['page'] - 1) || 0
 				this.perPageParam = +params['perPage'] || 10
+
+				this.overviewState = ((this.router.url.toString().split("/"))[1] == "opengames") ? GameState.open : GameState.playing;
 
 				if (this.pageParam < 0) {
 					this.router.navigate(['/games', 1])
 				}
 
-				return this.gameService.getGames(this.perPageParam, this.pageParam, GameState.open)
+				return this.gameService.getGames(this.perPageParam, this.pageParam, this.overviewState)
 			})
 
 		this.games.subscribe(x => {

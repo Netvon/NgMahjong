@@ -111,7 +111,7 @@ export class GameService {
 	}
 
 	startGame(id: string, token: TokenInfo): Observable<ApiResponse> {
-		const url = `${this.baseUrl}/games/${id}`
+		const url = `${this.baseUrl}/games/${id}/start`
 
 		const options = new RequestOptions({ headers: token.toHeaders() })
 

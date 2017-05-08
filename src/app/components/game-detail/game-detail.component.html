@@ -3,8 +3,38 @@
 </ng-template>
 
 <div *ngIf="game | async; else loading; let lGame">
-	<h3 class="subtitle">Template</h3>
-	<h2 class="title">{{ lGame.gameTemplate.id }}</h2>
+	<div class="columns">
+		<div class="column is-2">
+			<h3 class="subtitle">Template</h3>
+			<h2 class="title">{{ lGame.gameTemplate.id }}</h2>
+		</div>
+		<div class="column is-2 has-text-centered">
+			<div>
+				<p class="heading">Current Players</p>
+				<p class="title">{{ lGame.players.length }} / {{ lGame.maxPlayers }}</p>
+			</div>
+		</div>
+		<div class="column is-2 has-text-centered">
+			<div>
+				<p class="heading">Min Players</p>
+				<p class="title">{{ lGame.minPlayers }}</p>
+			</div>
+		</div>
+		<div class="column is-2 has-text-centered">
+			<div>
+				<p class="heading">State</p>
+				<p class="title">{{ lGame.state }}</p>
+			</div>
+		</div>
+		<div class="column is-2 is-offset-2">
+			<div>
+				<button class="button is-large is-pulled-right is-primary" [disabled]="lGame.players.length < lGame.minPlayers" *ngIf="lGame.state=='open'" (click)="startGame($event, lGame)">Start game</button>
+			</div>
+		</div>
+
+	</div>
+
+
 
 
 	<div class="box" *ngIf="users | async; else loading; let lUsers">
@@ -23,7 +53,6 @@
 			</div>
 		</details>
 
-		<a class="button" (click)="startGame($event, lGame)">Start</a>
 	</div>
 
 	<details>
