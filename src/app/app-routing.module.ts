@@ -10,6 +10,7 @@ const routes: Routes = [
 	{ path: 'game/:id', component: GameDetailComponent },
 	{ path: 'opengames',   redirectTo: '/opengames/1', pathMatch: 'full' },
 	{ path: 'playinggames',   redirectTo: '/playinggames/1', pathMatch: 'full' },
+	{ path: '',   redirectTo: '/opengames/1', pathMatch: 'full' },
 ]
 
 @NgModule({
