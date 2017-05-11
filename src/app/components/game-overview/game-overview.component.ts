@@ -24,12 +24,6 @@ export class GameOverviewComponent implements OnInit {
 	private pageParam: number
 	private perPageParam: number
 
-	paginationLinks: {
-		class: string,
-		number?: number,
-		text?: string
-	}
-
 	constructor(
 		private gameService: GameService,
 		private route: ActivatedRoute,
@@ -52,7 +46,8 @@ export class GameOverviewComponent implements OnInit {
 				this.pageParam = (+params['page'] - 1) || 0
 				this.perPageParam = +params['perPage'] || 10
 
-				this.overviewState = ((this.router.url.toString().split("/"))[1] == "opengames") ? GameState.open : GameState.playing;
+				this.overviewState = +GameState[params['state']] || GameState.open
+				// ((this.router.url.toString().split("/"))[1] == "opengames") ? GameState.open : GameState.playing
 
 				if (this.pageParam < 0) {
 					this.router.navigate(['/games', 1])
@@ -91,7 +86,7 @@ export class GameOverviewComponent implements OnInit {
 						}, error => target.classList.remove('is-loading'))
 	}
 
-	getPaginationUrl(){
+	getPaginationUrl() {
 		return (this.overviewState == GameState.open)?'/opengames':'/playinggames';
 	}
 

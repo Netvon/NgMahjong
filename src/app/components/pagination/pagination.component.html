@@ -9,7 +9,7 @@
 
     <ul class="pagination-list">
         <li *ngFor="let page of pagination.pagesArray">
-            <a class="pagination-link" [routerLink]="[url, page]" routerLinkActive="is-current">{{ page }}</a>
+            <a class="pagination-link" [routerLink]="[url, page, params]" routerLinkActive="is-current">{{ page }}</a>
         </li>
     </ul>
 </nav>
