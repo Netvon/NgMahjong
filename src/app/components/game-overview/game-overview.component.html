@@ -11,7 +11,7 @@
 
 <div *ngIf="games | async; else loading; let lGames">
 
-	<app-pagination [list]="lGames" [url]="getPaginationUrl()" [pagination]="pagination"></app-pagination>
+	<app-pagination [url]="getPaginationUrl()" [pagination]="pagination"></app-pagination>
 
 	<div *ngFor="let game of lGames.items" class="box">
 		<div class="level">
@@ -87,6 +87,6 @@
 		</div>-->
 	</div>
 
-	<app-pagination [list]="lGames" [url]="'/opengames'" [pagination]="pagination"></app-pagination>
+	<app-pagination url="/opengames" [pagination]="pagination"></app-pagination>
 
 </div>
