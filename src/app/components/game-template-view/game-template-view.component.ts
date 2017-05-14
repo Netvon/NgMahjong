@@ -18,10 +18,10 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 	@Input() gameTemplateId: string
 	@Input() tileScale = 2
 	@Input() tileSize = 1
-	@Input() tileXSize = 1
-	@Input() tileYSize = 1
-	@Input() tileZOffsetX = .25
-	@Input() tileZOffsetY = .25
+	@Input() tileXSize = 1.9
+	@Input() tileYSize = 1.9
+	@Input() tileZOffsetX = .3
+	@Input() tileZOffsetY = -.3
 	@Input() tileRadius = .25
 	@Input() tileClass = ['template-tile']
 	@Input() containerClass = ['template-view']

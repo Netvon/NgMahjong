@@ -7,7 +7,8 @@
 		<p class="control">
 			<span class="select">
 				<select [(ngModel)]="selectedTemplate">
-					<option *ngFor="let template of templates" [ngValue]="template">
+					<option disabled [ngValue]="null" class="hideoption">Select a template...</option>
+					<option *ngFor="let template of templates" [ngValue]="template" >
 						{{ template.id }}
 					</option>
 				</select>
@@ -15,7 +16,7 @@
 		</p>
 	</div>
 
-	<pre>depth {{ selectedTemplate.depth }}</pre>
+	<pre *ngIf="selectedTemplate">depth {{ selectedTemplate.depth }}</pre>
 	<app-game-template-view
 		*ngIf="selectedTemplate"
 		[gameTemplateId]="selectedTemplate.id"
@@ -38,7 +39,7 @@
 
 	<div class="field">
 		<p class="control">
-			<a (click)="createGame($event)" class="button is-primary">Create</a>
+			<button (click)="createGame($event)" [disabled]="!selectedTemplate"  class="button is-primary">Create</button>
 		</p>
 	</div>
 </div>

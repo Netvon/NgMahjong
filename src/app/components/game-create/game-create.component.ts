@@ -15,7 +15,7 @@ import { Observable } from 'rxjs/Observable'
 export class GameCreateComponent implements OnInit {
 
 	gameTemplates: Observable<GameTemplate[]>
-	selectedTemplate: GameTemplate
+	selectedTemplate: GameTemplate = null;
 	minPlayers: number
 	maxPlayers: number
 
@@ -29,7 +29,10 @@ export class GameCreateComponent implements OnInit {
 		this.title.setTitle('Create Game - Mahjong')
 		this.gameTemplates = this.gameService.getTemplates()
 		this.gameTemplates.subscribe(x => {
-			this.selectedTemplate = x[0]
+
+			// Door dit uit te schakelen wordt ngModel van de select niet verward en selecteerd het gewoon de default.
+
+			// this.selectedTemplate = x[0]
 		})
 	}
 

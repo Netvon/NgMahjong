@@ -1,11 +1,11 @@
 <nav class="pagination is-centered" >
     <a class="pagination-previous"
        *ngIf="pagination.hasPrevious"
-       [routerLink]="[url, pagination.previous]">Previous</a>
+       [routerLink]="[url, pagination.previous, params]">Previous</a>
 
     <a class="pagination-next"
        *ngIf="pagination.hasNext"
-       [routerLink]="[url, pagination.next ]">Next page</a>
+       [routerLink]="[url, pagination.next, params ]">Next page</a>
 
     <ul class="pagination-list">
         <li *ngFor="let page of pagination.pagesArray">

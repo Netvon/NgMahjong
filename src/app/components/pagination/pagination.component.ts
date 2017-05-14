@@ -1,7 +1,7 @@
 import { OnInit, Component, Input } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 
-import { Game, Pagination, PaginationDetails} from 'app/models'
+import { PaginationDetails} from 'app/models'
 
 import 'rxjs/add/operator/switchMap'
 
@@ -18,8 +18,7 @@ export class PaginationComponent implements OnInit {
 	params: { [key: string]: any }
 
 	constructor(
-		private activatedRoute: ActivatedRoute,
-		private router: Router
+		private activatedRoute: ActivatedRoute
 	) { }
 
 	ngOnInit(): void {

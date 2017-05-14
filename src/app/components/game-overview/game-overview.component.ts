@@ -45,9 +45,7 @@ export class GameOverviewComponent implements OnInit {
 				this.isLoading = true
 				this.pageParam = (+params['page'] - 1) || 0
 				this.perPageParam = +params['perPage'] || 10
-
 				this.overviewState = +GameState[params['state']] || GameState.open
-				// ((this.router.url.toString().split("/"))[1] == "opengames") ? GameState.open : GameState.playing
 
 				if (this.pageParam < 0) {
 					this.router.navigate(['/games', 1])
@@ -84,10 +82,6 @@ export class GameOverviewComponent implements OnInit {
 							target.classList.remove('is-loading')
 							console.log(x)
 						}, error => target.classList.remove('is-loading'))
-	}
-
-	getPaginationUrl() {
-		return (this.overviewState == GameState.open)?'/opengames':'/playinggames';
 	}
 
 }
