@@ -7,8 +7,8 @@ const routes: Routes = [
 	{ path: 'games/:page', component: GameOverviewComponent },
 	{ path: 'create-game', component: GameCreateComponent },
 	{ path: 'game/:id', component: GameDetailComponent },
-	{ path: 'games',   redirectTo: '/games/1', pathMatch: 'full' },
-	{ path: '',   redirectTo: '/games/1', pathMatch: 'full' },
+	{ path: 'games',   redirectTo: '/games/1;state=open', pathMatch: 'full' },
+	{ path: '',   redirectTo: '/games/1;state=open', pathMatch: 'full' },
 ]
 
 @NgModule({

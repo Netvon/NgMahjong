@@ -6,6 +6,7 @@ import { TemplateTileViewModel } from './template-tile.vm'
 
 import groupBy from 'lodash/groupBy'
 import values from 'lodash/values'
+import {Template} from "../../models/game/template.model";
 
 @Component({
 	selector: 'app-game-template-view',
@@ -14,14 +15,14 @@ import values from 'lodash/values'
 })
 export class GameTemplateViewComponent implements OnInit, OnChanges {
 
-	@Input() gameTemplate: GameTemplate
+	@Input() gameTemplate: Template
 	@Input() gameTemplateId: string
 	@Input() tileScale = 2
 	@Input() tileSize = 1
 	@Input() tileXSize = 1.9
 	@Input() tileYSize = 1.9
-	@Input() tileZOffsetX = .3
-	@Input() tileZOffsetY = -.3
+	@Input() tileZOffsetX = 0
+	@Input() tileZOffsetY = 0
 	@Input() tileRadius = .25
 	@Input() tileClass = ['template-tile']
 	@Input() containerClass = ['template-view']
@@ -42,6 +43,7 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 
 	get zGroupedTiles(): Array<TemplateTileViewModel[]> {
 		if ( this.gameTemplate ) {
+			console.log(this.gameTemplate)
 			const mapped = this.gameTemplate.tiles.map(a => {
 				return new TemplateTileViewModel().fromTemplateTile(a, this.calculateX(a), this.calculateY(a))
 			})
@@ -99,5 +101,15 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 							this.gameTemplate = x
 						})
 	}
+
+	tileSelectable(){
+
+
+
+		return true
+	}
+
+
+
 
 }

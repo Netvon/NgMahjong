@@ -8,6 +8,7 @@ import 'rxjs/add/observable/of'
 import { Observable } from 'rxjs/Observable'
 
 import { GameTemplate, GameState, Game, Pagination, TokenInfo, UserInGame, ApiResponse, User, PostGame } from '../models'
+import {PlayingGameTemplate} from "../models/game/playing-game-template.model";
 
 @Injectable()
 export class GameService {
@@ -26,6 +27,12 @@ export class GameService {
 		return this.http.get(`${this.baseUrl}/gameTemplates/${id}`)
 						.map(res => new GameTemplate().fromJson(res.json()))
 						.catch(this.handleError)
+	}
+
+	getGameTemplate(id: string): Observable<PlayingGameTemplate> {
+		return this.http.get(`${this.baseUrl}/games/${id}/tiles?matched=false`)
+            .map(res => new PlayingGameTemplate().fromJson(res.json()))
+            .catch(this.handleError)
 	}
 
 	getGame(id: string): Observable<Game> {

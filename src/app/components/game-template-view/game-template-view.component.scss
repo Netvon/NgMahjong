@@ -1,7 +1,22 @@
 .template-view {
-	width: 50%;
+	width: 100%;
 	padding: 2vw;
 }
+
+.boardstats {
+	padding: 2vw;
+}
+
+.boardstatgroup {
+	padding-bottom: 3vw;
+}
+
+.selectable {
+
+	fill: red !important;
+
+}
+
 
 $base-color: #00d1b2;//rgba(39, 167, 64, 1);
 

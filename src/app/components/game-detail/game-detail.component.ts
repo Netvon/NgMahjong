@@ -3,11 +3,13 @@ import { ActivatedRoute, Params } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 
 import { GameService } from '../../service/game.service'
-import { Game, UserInGame } from '../../models'
+import { Game, UserInGame, GameTemplate } from '../../models'
 
 import 'rxjs/add/operator/switchMap'
 import 'rxjs/add/operator/toArray'
 import { Observable } from 'rxjs/Observable'
+import {PlayingGameTemplate} from "../../models/game/playing-game-template.model";
+
 
 @Component({
 	selector: 'app-game-detail',
@@ -18,6 +20,7 @@ export class GameDetailComponent implements OnInit {
 
 	game: Observable<Game>
 	users: Observable<UserInGame[]>
+	gameTemplate: Observable<PlayingGameTemplate>
 
 	constructor(
 		private gameService: GameService,
@@ -40,6 +43,12 @@ export class GameDetailComponent implements OnInit {
 		this.game.subscribe(results => {
 			this.title.setTitle(`${results.gameTemplate.id} by ${results.createdBy.name} - Mahjong`)
 		})
+
+		this.gameTemplate = this.route.params
+            .switchMap((params: Params) => {
+				return this.gameService.getGameTemplate(params['id'])
+			})
+
 	}
 
 	startGame(event, game: Game) {
