@@ -10,16 +10,9 @@
 <div class="columns" *ngIf="gameTemplate; else loading; let template">
 	<div class="column is-8">
 		<svg  [attr.viewBox]="viewBox" [classList]="containerClass" xmlns="http://www.w3.org/2000/svg">
-			<!--<svg:defs>
-                <svg:filter id="f1" x="0" y="0" width="200%" height="200%">
-                    <svg:feOffset result="offOut" in="SourceGraphic" [attr.dx]="-(tileZOffsetX/2)" [attr.dy]="-(tileZOffsetY/2)" />
-                    <svg:feBlend in="SourceGraphic" in2="offOut" mode="normal" />
-                </svg:filter>
-            </svg:defs>-->
 			<svg:g *ngFor="let group of zGroupedTiles; let i = index"
 				   [attr.data-z]="i"
 				   [attr.transform]="'translate(' + (tileZOffsetX * i) + ',' + (tileZOffsetY * i) + ')'">
-				<!--<svg:g *ngFor="let tile of group">-->t
 
 				<svg:rect *ngFor="let tile of group"
 						  [attr.x]="tile.x"
@@ -30,6 +23,7 @@
 						  [attr.ry]="tileRadius"
 						  [attr.stroke]="tileStroke"
 						  [attr.stroke-width]="tileStrokeWidth"
+                          [attr.data-selectable]="tileSelectable(tile)"
 						  [classList]="tileClass"/>
 				<!--<svg:text
                     text-anchor="middle"
@@ -56,13 +50,13 @@
 				<p class="title">{{template.tiles.length}} / 144</p>
 			</div>
 		</div>
-		<div *ngIf="!template.id" class="has-text-centered boardstatgroup">
+		<div *ngIf="allowedShowingPlayingInfo()" class="has-text-centered boardstatgroup">
 			<div>
 				<p class="heading">Total matches</p>
 				<p class="title">0</p>
 			</div>
 		</div>
-		<div *ngIf="!template.id" class="has-text-centered boardstatgroup">
+		<div *ngIf="allowedShowingPlayingInfo()" class="has-text-centered boardstatgroup">
 			<div>
 				<p class="heading">Your matches</p>
 				<p class="title">0</p>

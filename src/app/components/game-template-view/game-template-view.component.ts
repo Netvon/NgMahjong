@@ -7,6 +7,7 @@ import { TemplateTileViewModel } from './template-tile.vm'
 import groupBy from 'lodash/groupBy'
 import values from 'lodash/values'
 import {Template} from "../../models/game/template.model";
+import {Tile} from "../../models/tile/tile.model";
 
 @Component({
 	selector: 'app-game-template-view',
@@ -65,7 +66,7 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 	}
 
 	constructor(
-		private gameService: GameService
+		protected gameService: GameService
 	) { }
 
 	ngOnInit() {
@@ -89,12 +90,12 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 		return this.calculate(tile, tile.yPos)
 	}
 
-	private calculate(tile: TemplateTile, pos: number) {
+	protected calculate(tile: TemplateTile, pos: number) {
 		return pos - this.tileSize
 		// return ((pos - this.tileSizeAdjusted) + ((tile.zPos - this.tileSize) / this.tileScale)) / this.tileScale
 	}
 
-	private loadTemplate() {
+	protected loadTemplate() {
 		this.gameTemplate = null
 		this.gameService.getTemplate(this.gameTemplateId)
 						.subscribe(x => {
@@ -102,13 +103,14 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 						})
 	}
 
-	tileSelectable(){
+	tileSelectable(tile: TemplateTile){
 
-
-
-		return true
+		return false
 	}
 
+	allowedShowingPlayingInfo(){
+		return false;
+	}
 
 
 

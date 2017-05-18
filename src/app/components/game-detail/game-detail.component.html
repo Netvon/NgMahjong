@@ -35,13 +35,13 @@
 	</div>
 
 
-	<app-game-template-view
+	<app-playing-game-template-view
 			*ngIf="gameTemplate | async; else loading; let template"
 			[gameTemplate]="template"
 			tileStroke="#505050"
 			tileStrokeWidth="0.01"
 	>
-	</app-game-template-view>
+	</app-playing-game-template-view>
 
 
 	<div class="box" *ngIf="users | async; else loading; let lUsers">

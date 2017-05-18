@@ -1,7 +1,7 @@
 import { TemplateTile } from '../tile/template-tile.model'
 import {Template} from "./template.model";
 
-export class GameTemplate extends Template{
+export class GameTemplate extends Template {
 	id: string
 
 	fromJson(json: { id: string, tiles: any[] }) {
