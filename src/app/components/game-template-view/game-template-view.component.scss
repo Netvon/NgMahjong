@@ -24,9 +24,17 @@ g {
 	// stroke: black;
 	// stroke-width: .1;
 
-	 & > rect[data-selectable=true]:hover {
-		fill:red;
+	 & > rect[data-selectable=true][data-selected=false]:hover {
+
+		fill:#E54B4B;
+
 	 }
+
+	& > rect[data-selected=true] {
+
+		fill:#643A71;
+
+	}
 }
 
 :host {

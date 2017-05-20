@@ -34,14 +34,15 @@
 
 	</div>
 
-
-	<app-playing-game-template-view
-			*ngIf="gameTemplate | async; else loading; let template"
-			[gameTemplate]="template"
-			tileStroke="#505050"
-			tileStrokeWidth="0.01"
-	>
-	</app-playing-game-template-view>
+	<div *ngIf="lGame.state!='open'">
+		<app-playing-game-template-view
+				*ngIf="gameTemplate | async; else loading; let template"
+				[gameTemplate]="template"
+				tileStroke="#505050"
+				tileStrokeWidth="0.01"
+		>
+		</app-playing-game-template-view>
+	</div>
 
 
 	<div class="box" *ngIf="users | async; else loading; let lUsers">

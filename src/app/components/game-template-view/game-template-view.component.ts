@@ -44,7 +44,6 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 
 	get zGroupedTiles(): Array<TemplateTileViewModel[]> {
 		if ( this.gameTemplate ) {
-			console.log(this.gameTemplate)
 			const mapped = this.gameTemplate.tiles.map(a => {
 				return new TemplateTileViewModel().fromTemplateTile(a, this.calculateX(a), this.calculateY(a))
 			})
@@ -104,13 +103,20 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 	}
 
 	tileSelectable(tile: TemplateTile){
-
 		return false
 	}
 
 	allowedShowingPlayingInfo(){
 		return false;
 	}
+	selectTile(selectedTile: TemplateTile){
+		return
+	}
+
+	tileSelected(tile: TemplateTile){
+		return
+	}
+
 
 
 
