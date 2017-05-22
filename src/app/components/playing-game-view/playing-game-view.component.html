@@ -8,7 +8,7 @@
 </ng-template>
 
 <div class="columns" *ngIf="gameBoard; else loading; let template">
-    <div class="column is-8">
+    <div class="column is-10">
         <svg  [attr.viewBox]="viewBox" [classList]="containerClass" xmlns="http://www.w3.org/2000/svg">
             <svg:g *ngFor="let group of zGroupedTiles; let i = index"
                    [attr.data-z]="i"
@@ -27,11 +27,11 @@
                           <!--[attr.data-selected]="tileSelected(tile)"-->
                           <!--[classList]="tileClass"/>-->
 
-                <image xlink:href="../../../assets/Tiles-1/singleTile.png" *ngFor="let tile of group"
+                <image  *ngFor="let tile of group" attr.xlink:href="{{tile.spriteSource}}"
                        [attr.x]="tile.x"
                        [attr.y]="tile.y"
-                       [attr.width]="tileXSize"
-                       [attr.height]="tileYSize">
+                       [attr.width]="tile.width"
+                       [attr.height]="tile.height">
                 </image>
 
                 <!--<svg:text
@@ -46,7 +46,7 @@
         </svg>
     </div>
 
-    <div class="column is-4 boardstats">
+    <div class="column is-2 boardstats">
         <div class=" has-text-centered boardstatgroup">
             <div>
                 <p class="heading">Layers left</p>
@@ -76,28 +76,28 @@
 
 
 <div>
+<!--<div class="field is-grouped">-->
+<!--<p class="control">-->
+<!--<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileXSize"/>-->
+<!--<label>tileXSize: {{ tileXSize }}</label>-->
+<!--</p>-->
+
+<!--<p class="control">-->
+<!--<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileYSize"/>-->
+<!--<label>tileYSize: {{ tileYSize }}</label>-->
+<!--</p>-->
+<!--</div>-->
+
 <div class="field is-grouped">
 <p class="control">
-<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileXSize"/>
-<label>tileXSize: {{ tileXSize }}</label>
-</p>
-
-<p class="control">
-<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileYSize"/>
-<label>tileYSize: {{ tileYSize }}</label>
-</p>
-</div>
-
-<div class="field is-grouped">
-<p class="control">
-<input type="range" step="0.1" [attr.min]="-tileXSize" [attr.max]="tileXSize" [(ngModel)]="tileZOffsetX"/>
+<input type="range" step="0.01" [attr.min]="-1" [attr.max]="1" [(ngModel)]="tileZOffsetX"/>
 <label>tileZOffsetX: {{ tileZOffsetX }}</label>
 </p>
 <p class="control">
-<input type="range" step="0.1" [attr.min]="-tileYSize" [attr.max]="tileYSize" [(ngModel)]="tileZOffsetY"/>
+<input type="range" step="0.01" [attr.min]="-1" [attr.max]="1" [(ngModel)]="tileZOffsetY"/>
 <label>tileZOffsetY: {{ tileZOffsetY }}</label>
 </p>
 </div>
-<input type="range" step="0.01" min="0" [attr.max]="tileXSize/2" [(ngModel)]="tileRadius"/>
+<!--<input type="range" step="0.01" min="0" [attr.max]="tileXSize/2" [(ngModel)]="tileRadius"/>-->
 
 </div>

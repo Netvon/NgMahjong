@@ -7,6 +7,7 @@ import values from 'lodash/values'
 import {TileViewModel} from "./tile.vm";
 import {PlayingBoard} from "../../models/board/playing-board.model";
 import {PlayingTile} from "../../models/tile/playing-tile.model";
+import {SpriteSheet} from "../../models/tile/sprite-sheet.model";
 
 @Component({
     selector: 'app-playing-game-view',
@@ -16,28 +17,21 @@ import {PlayingTile} from "../../models/tile/playing-tile.model";
 export class PlayingGameViewComponent {
 
     @Input() gameBoard: PlayingBoard
-    @Input() tileSize = 1
-    @Input() tileXSize = 1.9
-    @Input() tileYSize = 1.9
-    @Input() tileZOffsetX = 0
-    @Input() tileZOffsetY = 0
-    @Input() tileRadius = .25
-    @Input() tileClass = ['template-tile']
+    @Input() tileZOffsetX = 0.15
+    @Input() tileZOffsetY = -0.15
     @Input() containerClass = ['template-view']
-    @Input() tileStroke = 'black'
-    @Input() tileStrokeWidth = 0.1
 
 
-
+    private spriteSheet: SpriteSheet
     private selectedTile;
 
     constructor(gameService: GameService) {
-
+        this.spriteSheet = new SpriteSheet("../../../assets/Tiles-1", 349, 480)
     }
 
     get viewBox(): string {
         if ( this.gameBoard ) {
-            return `0 0 ${this.gameBoard.width} ${this.gameBoard.height}`
+            return `0 0 ${this.spriteSheet.calculateTotalWidth(this.gameBoard.width)} ${this.spriteSheet.calculateTotalHeight(this.gameBoard.height)}`
         }
 
         return '0 0 0 0'
@@ -45,9 +39,28 @@ export class PlayingGameViewComponent {
 
 
     get zGroupedTiles(): Array<TileViewModel[]> {
+
         if ( this.gameBoard ) {
-            const mapped = this.gameBoard.tiles.map(a => {
-                return new TileViewModel().fromTemplateTile(a, this.calculateX(a), this.calculateY(a))
+            var mapped = this.gameBoard.tiles.map(a => {
+                return new TileViewModel(a, this.spriteSheet.getTileSprite(a.tile), this.spriteSheet.calculateX(a), this.spriteSheet.calculateY(a), this.spriteSheet.spriteWidth, this.spriteSheet.spriteHeight)
+            })
+
+            mapped = mapped.sort((a, b) => {
+                if (a.xPos < b.xPos) {
+                    return 1;
+                }
+                if (a.xPos > b.xPos) {
+                    return -1;
+                }
+
+                if (a.yPos > b.yPos) {
+                    return 1;
+                }
+                if (a.yPos < b.yPos) {
+                    return -1;
+                }
+
+                return 0;
             })
 
             const grouped = groupBy(mapped, b => b.zPos)
@@ -58,19 +71,6 @@ export class PlayingGameViewComponent {
         return [[]]
     }
 
-    calculateX(tile: PlayingTile) {
-        return this.calculate(tile, tile.xPos)
-    }
-
-    calculateY(tile: PlayingTile) {
-        // return ((tile.yPos - .5) + ((tile.zPos - 1) / 2)) / 2
-        return this.calculate(tile, tile.yPos)
-    }
-
-    protected calculate(tile: PlayingTile, pos: number) {
-        return pos - this.tileSize
-        // return ((pos - this.tileSizeAdjusted) + ((tile.zPos - this.tileSize) / this.tileScale)) / this.tileScale
-    }
 
 
     selectTile(selectedTile: PlayingTile){
