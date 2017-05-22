@@ -3,9 +3,10 @@ import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 
 import { GameService } from '../../service/game.service'
-import { GameTemplate, PostGame } from '../../models'
+import { PostGame } from '../../models'
 
 import { Observable } from 'rxjs/Observable'
+import {TemplateBoard} from "../../models/board/template-board.model";
 
 @Component({
 	selector: 'app-game-create',
@@ -14,8 +15,8 @@ import { Observable } from 'rxjs/Observable'
 })
 export class GameCreateComponent implements OnInit {
 
-	gameTemplates: Observable<GameTemplate[]>
-	selectedTemplate: GameTemplate = null;
+	gameTemplates: Observable<TemplateBoard[]>
+	selectedTemplate: TemplateBoard = null;
 	minPlayers: number
 	maxPlayers: number
 

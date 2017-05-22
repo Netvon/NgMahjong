@@ -1,14 +1,13 @@
-export class Tile {
-	id: string
-	suit: string
-	name: string
-	matchesWholeSuit: boolean
 
-	fromJson(json: { id: string, suit: string, name: string, matchesWholeSuit: boolean }) {
-		this.id = json.id
-		this.suit = json.suit
-		this.name = json.name
-		this.matchesWholeSuit = json.matchesWholeSuit
+export class Tile {
+	xPos: number
+	yPos: number
+	zPos: number
+
+	fromJson(json: { xPos: number, yPos: number, zPos: number }) {
+		this.xPos = json.xPos
+		this.yPos = json.yPos
+		this.zPos = json.zPos
 
 		return this
 	}

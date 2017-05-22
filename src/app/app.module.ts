@@ -13,7 +13,7 @@ import { GameOverviewComponent, GameDetailComponent, GameCreateComponent } from 
 import { AppRoutingModule } from './app-routing.module';
 import { GameTemplateViewComponent } from './components/game-template-view/game-template-view.component'
 import {PaginationComponent} from "./components/pagination/pagination.component";
-import {PlayingGameTemplateViewComponent} from "./components/playing-game-template-view/playing-game-template-view.component";
+import {PlayingGameViewComponent} from "./components/playing-game-view/playing-game-view.component";
 
 @NgModule({
 	declarations: [
@@ -22,7 +22,7 @@ import {PlayingGameTemplateViewComponent} from "./components/playing-game-templa
 		GameDetailComponent,
 		GameCreateComponent,
 		GameTemplateViewComponent,
-		PlayingGameTemplateViewComponent,
+		PlayingGameViewComponent,
 		PaginationComponent
 	],
 	imports: [

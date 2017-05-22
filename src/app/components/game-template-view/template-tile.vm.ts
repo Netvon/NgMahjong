@@ -1,11 +1,10 @@
-import { TemplateTile } from 'app/models'
+import {Tile} from "../../models/tile/tile.model";
 
-export class TemplateTileViewModel extends TemplateTile {
+export class TemplateTileViewModel extends Tile {
 	x: number
 	y: number
 
-	fromTemplateTile(tile: TemplateTile, x?: number, y?: number) {
-		this._id = tile._id
+	fromTemplateTile(tile: Tile, x?: number, y?: number) {
 		this.xPos = tile.xPos
 		this.yPos = tile.yPos
 		this.zPos = tile.zPos

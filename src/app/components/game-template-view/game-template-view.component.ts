@@ -1,12 +1,11 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core'
 
-import { GameTemplate, TemplateTile } from '../../models'
 import { GameService } from '../../service/game.service'
 import { TemplateTileViewModel } from './template-tile.vm'
 
 import groupBy from 'lodash/groupBy'
 import values from 'lodash/values'
-import {Template} from "../../models/game/template.model";
+import {Board} from "../../models/board/board.model";
 import {Tile} from "../../models/tile/tile.model";
 
 @Component({
@@ -16,7 +15,7 @@ import {Tile} from "../../models/tile/tile.model";
 })
 export class GameTemplateViewComponent implements OnInit, OnChanges {
 
-	@Input() gameTemplate: Template
+	@Input() gameTemplate: Board
 	@Input() gameTemplateId: string
 	@Input() tileScale = 2
 	@Input() tileSize = 1
@@ -30,17 +29,17 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 	@Input() tileStroke = 'black'
 	@Input() tileStrokeWidth = 0.1
 
-	get tileSizeAdjusted(): number {
-		return this.tileSize / this.tileScale
-	}
-
-	get zSortedTiles(): TemplateTile[] {
-		if ( this.gameTemplate ) {
-			return this.gameTemplate.tiles.sort((a, b) => a.zPos - b.zPos)
-		}
-
-		return new Array<TemplateTile>()
-	}
+	// get tileSizeAdjusted(): number {
+	// 	return this.tileSize / this.tileScale
+	// }
+    //
+	// get zSortedTiles(): TemplateTile[] {
+	// 	if ( this.gameTemplate ) {
+	// 		return this.gameTemplate.tiles.sort((a, b) => a.zPos - b.zPos)
+	// 	}
+    //
+	// 	return new Array<TemplateTile>()
+	// }
 
 	get zGroupedTiles(): Array<TemplateTileViewModel[]> {
 		if ( this.gameTemplate ) {
@@ -80,16 +79,16 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 		}
 	}
 
-	calculateX(tile: TemplateTile) {
+	calculateX(tile: Tile) {
 		return this.calculate(tile, tile.xPos)
 	}
 
-	calculateY(tile: TemplateTile) {
+	calculateY(tile: Tile) {
 		// return ((tile.yPos - .5) + ((tile.zPos - 1) / 2)) / 2
 		return this.calculate(tile, tile.yPos)
 	}
 
-	protected calculate(tile: TemplateTile, pos: number) {
+	protected calculate(tile: Tile, pos: number) {
 		return pos - this.tileSize
 		// return ((pos - this.tileSizeAdjusted) + ((tile.zPos - this.tileSize) / this.tileScale)) / this.tileScale
 	}
@@ -100,21 +99,6 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 						.subscribe(x => {
 							this.gameTemplate = x
 						})
-	}
-
-	tileSelectable(tile: TemplateTile){
-		return false
-	}
-
-	allowedShowingPlayingInfo(){
-		return false;
-	}
-	selectTile(selectedTile: TemplateTile){
-		return
-	}
-
-	tileSelected(tile: TemplateTile){
-		return
 	}
 
 

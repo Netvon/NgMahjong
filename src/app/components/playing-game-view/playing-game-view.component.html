@@ -1,0 +1,103 @@
+<ng-template #loading>
+    <div class="level">
+        <div class="level-item">
+            <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</ng-template>
+
+<div class="columns" *ngIf="gameBoard; else loading; let template">
+    <div class="column is-8">
+        <svg  [attr.viewBox]="viewBox" [classList]="containerClass" xmlns="http://www.w3.org/2000/svg">
+            <svg:g *ngFor="let group of zGroupedTiles; let i = index"
+                   [attr.data-z]="i"
+                   [attr.transform]="'translate(' + (tileZOffsetX * i) + ',' + (tileZOffsetY * i) + ')'">
+
+                <!--<svg:rect *ngFor="let tile of group" (click)="selectTile(tile)"-->
+                          <!--[attr.x]="tile.x"-->
+                          <!--[attr.y]="tile.y"-->
+                          <!--[attr.data-id]="tile._id"-->
+                          <!--[attr.width]="tileXSize"-->
+                          <!--[attr.height]="tileYSize"-->
+                          <!--[attr.ry]="tileRadius"-->
+                          <!--[attr.stroke]="tileStroke"-->
+                          <!--[attr.stroke-width]="tileStrokeWidth"-->
+                          <!--[attr.data-selectable]="tileSelectable(tile)"-->
+                          <!--[attr.data-selected]="tileSelected(tile)"-->
+                          <!--[classList]="tileClass"/>-->
+
+                <image xlink:href="../../../assets/Tiles-1/singleTile.png" *ngFor="let tile of group"
+                       [attr.x]="tile.x"
+                       [attr.y]="tile.y"
+                       [attr.width]="tileXSize"
+                       [attr.height]="tileYSize">
+                </image>
+
+                <!--<svg:text
+                    text-anchor="middle"
+                    [attr.x]="tile.x + .5"
+                    [attr.y]="tile.y + .70"
+                    font-size=".5"
+                    style="stroke-width: 0; fill: darkslategrey">{{ tile._id | slice:22:24 }}</svg:text>-->
+                <!--</svg:g>-->
+            </svg:g>
+
+        </svg>
+    </div>
+
+    <div class="column is-4 boardstats">
+        <div class=" has-text-centered boardstatgroup">
+            <div>
+                <p class="heading">Layers left</p>
+                <p class="title">{{template.depth}}</p>
+            </div>
+        </div>
+        <div class="has-text-centered boardstatgroup">
+            <div>
+                <p class="heading">Tiles left</p>
+                <p class="title">{{template.tiles.length}} / 144</p>
+            </div>
+        </div>
+        <div class="has-text-centered boardstatgroup">
+            <div>
+                <p class="heading">Total matches</p>
+                <p class="title">0</p>
+            </div>
+        </div>
+        <div class="has-text-centered boardstatgroup">
+            <div>
+                <p class="heading">Your matches</p>
+                <p class="title">0</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+<div class="field is-grouped">
+<p class="control">
+<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileXSize"/>
+<label>tileXSize: {{ tileXSize }}</label>
+</p>
+
+<p class="control">
+<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileYSize"/>
+<label>tileYSize: {{ tileYSize }}</label>
+</p>
+</div>
+
+<div class="field is-grouped">
+<p class="control">
+<input type="range" step="0.1" [attr.min]="-tileXSize" [attr.max]="tileXSize" [(ngModel)]="tileZOffsetX"/>
+<label>tileZOffsetX: {{ tileZOffsetX }}</label>
+</p>
+<p class="control">
+<input type="range" step="0.1" [attr.min]="-tileYSize" [attr.max]="tileYSize" [(ngModel)]="tileZOffsetY"/>
+<label>tileZOffsetY: {{ tileZOffsetY }}</label>
+</p>
+</div>
+<input type="range" step="0.01" min="0" [attr.max]="tileXSize/2" [(ngModel)]="tileRadius"/>
+
+</div>

@@ -1,0 +1,42 @@
+.template-view {
+  width: 100%;
+  padding: 2vw;
+}
+
+.boardstats {
+  padding: 2vw;
+}
+
+.boardstatgroup {
+  padding-bottom: 3vw;
+}
+
+
+$base-color: #00d1b2;//rgba(39, 167, 64, 1);
+
+@for $i from 0 through 5 {
+  g[data-z="#{$i}"]{
+    fill: lighten($base-color, ($i/6)*75) ;
+  }
+}
+
+g {
+  // stroke: black;
+  // stroke-width: .1;
+
+  & > rect[data-selectable=true][data-selected=false]:hover {
+
+    fill:#E54B4B;
+
+  }
+
+  & > rect[data-selected=true] {
+
+    fill:#643A71;
+
+  }
+}
+
+:host {
+  display: block;
+}

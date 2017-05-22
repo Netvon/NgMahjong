@@ -7,8 +7,9 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/observable/of'
 import { Observable } from 'rxjs/Observable'
 
-import { GameTemplate, GameState, Game, Pagination, TokenInfo, UserInGame, ApiResponse, User, PostGame } from '../models'
-import {PlayingGameTemplate} from "../models/game/playing-game-template.model";
+import { GameState, Game, Pagination, TokenInfo, UserInGame, ApiResponse, User, PostGame } from '../models'
+import {PlayingBoard} from "app/models/board/playing-board.model";
+import {TemplateBoard} from "app/models/board/template-board.model";
 
 @Injectable()
 export class GameService {
@@ -17,21 +18,21 @@ export class GameService {
 
 	constructor(private http: Http) { }
 
-	getTemplates(): Observable<GameTemplate[]> {
+	getTemplates(): Observable<TemplateBoard[]> {
 		return this.http.get(`${this.baseUrl}/gameTemplates`)
-						.map(res => res.json().map(x => new GameTemplate().fromJson(x)))
+						.map(res => res.json().map(x => new TemplateBoard().fromJson(x)))
 						.catch(this.handleError)
 	}
 
-	getTemplate(id: string): Observable<GameTemplate> {
+	getTemplate(id: string): Observable<TemplateBoard> {
 		return this.http.get(`${this.baseUrl}/gameTemplates/${id}`)
-						.map(res => new GameTemplate().fromJson(res.json()))
+						.map(res => new TemplateBoard().fromJson(res.json()))
 						.catch(this.handleError)
 	}
 
-	getGameTemplate(id: string): Observable<PlayingGameTemplate> {
+	getPlayingBoard(id: string): Observable<PlayingBoard> {
 		return this.http.get(`${this.baseUrl}/games/${id}/tiles?matched=false`)
-            .map(res => new PlayingGameTemplate().fromJson(res.json()))
+            .map(res => new PlayingBoard().fromJson(res.json()))
             .catch(this.handleError)
 	}
 

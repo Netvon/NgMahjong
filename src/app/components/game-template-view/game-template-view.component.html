@@ -14,7 +14,7 @@
 				   [attr.data-z]="i"
 				   [attr.transform]="'translate(' + (tileZOffsetX * i) + ',' + (tileZOffsetY * i) + ')'">
 
-				<svg:rect *ngFor="let tile of group" (click)="selectTile(tile)"
+				<svg:rect *ngFor="let tile of group"
 						  [attr.x]="tile.x"
 						  [attr.y]="tile.y"
 						  [attr.data-id]="tile._id"
@@ -23,8 +23,6 @@
 						  [attr.ry]="tileRadius"
 						  [attr.stroke]="tileStroke"
 						  [attr.stroke-width]="tileStrokeWidth"
-                          [attr.data-selectable]="tileSelectable(tile)"
-                          [attr.data-selected]="tileSelected(tile)"
 						  [classList]="tileClass"/>
 
 				<!--<svg:text
@@ -50,18 +48,6 @@
 			<div>
 				<p class="heading">Tiles left</p>
 				<p class="title">{{template.tiles.length}} / 144</p>
-			</div>
-		</div>
-		<div *ngIf="allowedShowingPlayingInfo()" class="has-text-centered boardstatgroup">
-			<div>
-				<p class="heading">Total matches</p>
-				<p class="title">0</p>
-			</div>
-		</div>
-		<div *ngIf="allowedShowingPlayingInfo()" class="has-text-centered boardstatgroup">
-			<div>
-				<p class="heading">Your matches</p>
-				<p class="title">0</p>
 			</div>
 		</div>
 	</div>

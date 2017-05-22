@@ -1,7 +1,7 @@
-import {TemplateTile} from "../tile/template-tile.model";
+import {Tile} from "../tile/tile.model";
 
-export class Template {
-    tiles: TemplateTile[]
+export class Board {
+    tiles: Tile[]
 
     get width(): number {
         return this.tiles.sort((a, b) => b.xPos - a.xPos)[0].xPos + 1
