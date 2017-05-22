@@ -36,6 +36,26 @@ export class GameService {
             .catch(this.handleError)
 	}
 
+	postMatch(gameId: string, id1: string, id2: string, token: TokenInfo): Observable<ApiResponse> {
+		const url = `${this.baseUrl}/games/${gameId}/tiles/matches`
+		const auth = token.toHeaders()
+		auth.append('Content-Type', 'application/json')
+
+		const options = new RequestOptions({ headers: auth })
+
+		return this.http.post(url, {"tile1Id":id1, "tile2Id":id2}, options)
+            .map(res => {
+				const json = res.json()
+
+				return {
+					message: json.message as string || json as string,
+					status: res.status
+				}
+			})
+            .catch(this.handleError)
+	}
+
+
 	getGame(id: string): Observable<Game> {
 		const url = `${this.baseUrl}/games/${id}`
 

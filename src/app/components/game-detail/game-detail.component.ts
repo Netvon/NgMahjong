@@ -20,7 +20,6 @@ export class GameDetailComponent implements OnInit {
 
 	game: Observable<Game>
 	users: Observable<UserInGame[]>
-	board: Observable<PlayingBoard>
 
 	constructor(
 		private gameService: GameService,
@@ -44,10 +43,7 @@ export class GameDetailComponent implements OnInit {
 			this.title.setTitle(`${results.gameTemplate.id} by ${results.createdBy.name} - Mahjong`)
 		})
 
-		this.board = this.route.params
-            .switchMap((params: Params) => {
-				return this.gameService.getPlayingBoard(params['id'])
-			})
+
 
 	}
 

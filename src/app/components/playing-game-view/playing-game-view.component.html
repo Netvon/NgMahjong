@@ -27,12 +27,28 @@
                           <!--[attr.data-selected]="tileSelected(tile)"-->
                           <!--[classList]="tileClass"/>-->
 
-                <image  *ngFor="let tile of group" attr.xlink:href="{{tile.spriteSource}}"
-                       [attr.x]="tile.x"
-                       [attr.y]="tile.y"
-                       [attr.width]="tile.width"
-                       [attr.height]="tile.height">
-                </image>
+                <svg:g *ngFor="let tile of group">
+
+                    <image
+                            [attr.xlink:href]="tile.spriteSource"
+                            [attr.width]="tile.width"
+                            [attr.height]="tile.height"
+                            [attr.x]="tile.x"
+                            [attr.y]="tile.y">
+                    </image>
+
+                    <svg:rect (click)="selectTile(tile)"
+                              [attr.x]="tile.x"
+                              [attr.y]="tile.y"
+                              [attr.width]="tile.width"
+                              [attr.height]="tile.height"
+                              [attr.data-selectable]="tileSelectable(tile)"
+                              [attr.data-selected]="tileSelected(tile)"
+                              [classList]="tileClass">
+                    </svg:rect>
+
+                </svg:g>
+
 
                 <!--<svg:text
                     text-anchor="middle"

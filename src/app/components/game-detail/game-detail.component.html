@@ -36,8 +36,7 @@
 
 	<div *ngIf="lGame.state!='open'">
 		<app-playing-game-view
-				*ngIf="board | async; else loading; let lBoard"
-				[gameBoard]="lBoard">
+				[gameId]="lGame.id">
 		</app-playing-game-view>
 	</div>
 
