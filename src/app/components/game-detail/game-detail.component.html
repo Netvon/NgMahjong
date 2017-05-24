@@ -4,65 +4,61 @@
 
 <div *ngIf="game | async; else loading; let lGame">
 	<div class="columns">
-		<div class="column is-2">
-			<h3 class="subtitle">Template</h3>
-			<h2 class="title">{{ lGame.gameTemplate.id }}</h2>
-		</div>
-		<div class="column is-2 has-text-centered">
-			<div>
-				<p class="heading">Current Players</p>
-				<p class="title">{{ lGame.players.length }} / {{ lGame.maxPlayers }}</p>
-			</div>
-		</div>
-		<div class="column is-2 has-text-centered">
-			<div>
-				<p class="heading">Min Players</p>
-				<p class="title">{{ lGame.minPlayers }}</p>
-			</div>
-		</div>
-		<div class="column is-2 has-text-centered">
-			<div>
-				<p class="heading">State</p>
-				<p class="title">{{ lGame.state }}</p>
-			</div>
-		</div>
-		<div class="column is-2 is-offset-2">
-			<div>
-				<button class="button is-large is-pulled-right is-primary" [disabled]="lGame.players.length < lGame.minPlayers" *ngIf="lGame.state=='open'" (click)="startGame($event, lGame)">Start game</button>
-			</div>
-		</div>
+		<div class="column">
+			<div class="box">
+				<div *ngIf="lGame.state=='open'">
+					<h3 class="heading">Template </h3>
+					<h2 class="title">{{ lGame.gameTemplate.id }}</h2>
+					<div>
+						<app-game-template-view
+								*ngIf="selectedTemplate"
+								[gameTemplateId]="selectedTemplate.id"
+								tileStroke="#505050"
+								tileStrokeWidth="0.01"
+						>
+						</app-game-template-view>
+					</div>
 
+				</div>
+
+
+				<div *ngIf="lGame.state!='open'">
+					<app-playing-game-view
+							[gameId]="lGame.id">
+					</app-playing-game-view>
+				</div>
+			</div>
+		</div>
+		<div class="column is-4">
+			<div class="box">
+				<div>
+					<span class="title">Players</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="subtitle">{{ lGame.players.length }} / {{ lGame.maxPlayers }}</span>
+				</div>
+				<br>
+				<div *ngIf="users | async; else loading; let lUsers">
+					<ul>
+						<li *ngFor="let user of lUsers">
+							<span>{{ user.name }} <span *ngIf="user.name === lGame.createdBy.name">(owner)</span></span>
+						</li>
+					</ul>
+				</div>
+				<hr>
+				<div>
+					<p class="heading">Min Players</p>
+					<p class="title">{{ lGame.minPlayers }}</p>
+				</div>
+				<br>
+				<div>
+					<p class="heading">State</p>
+					<p class="title">{{ lGame.state }}</p>
+				</div>
+				<br>
+
+				<button class="button is-large is-primary" [disabled]="lGame.players.length < lGame.minPlayers" *ngIf="lGame.state=='open'" (click)="startGame($event, lGame)">Start game</button>
+				<br>
+
+			</div>
+		</div>
 	</div>
 
-	<div *ngIf="lGame.state!='open'">
-		<app-playing-game-view
-				[gameId]="lGame.id">
-		</app-playing-game-view>
-	</div>
-
-
-	<div class="box" *ngIf="users | async; else loading; let lUsers">
-		<h4 class="title is-4">Players</h4>
-		<ul>
-			<li *ngFor="let user of lUsers">
-				<span>{{ user.name }} <span *ngIf="user.name === lGame.createdBy.name">(owner)</span></span>
-				<small>{{ user._id }}</small>
-			</li>
-		</ul>
-
-		<details>
-			<summary>Raw JSON</summary>
-			<div class="content">
-				<pre>{{ lUsers | json}}</pre>
-			</div>
-		</details>
-
-	</div>
-
-	<details>
-		<summary>Raw JSON</summary>
-		<div class="content">
-			<pre>{{ lGame | json}}</pre>
-		</div>
-	</details>
 </div>

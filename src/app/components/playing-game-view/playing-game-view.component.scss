@@ -1,6 +1,6 @@
 .template-view {
   width: 100%;
-  padding: 2vw;
+  //padding: 2vw;
 }
 
 .boardstats {
@@ -16,14 +16,27 @@ g {
 
   & > rect {
     opacity: 0;
-    fill:black;
+  }
+  & > rect[data-hintable=true] {
+    opacity: 0.2;
+    fill:orange;
   }
   & > rect:hover {
     opacity: 0.1;
+    fill:black;
   }
   & > rect[data-selectable=true][data-selected=true]{
     opacity: 0.2;
+    fill:black;
   }
+
+
+
+
+  // For development, which tiles are selectable
+  //& > rect[data-selectable=true] {
+  //  opacity: 0.1;
+  //}
 
 }
 

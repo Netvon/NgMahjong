@@ -10,11 +10,15 @@ import { Observable } from 'rxjs/Observable'
 import { GameState, Game, Pagination, TokenInfo, UserInGame, ApiResponse, User, PostGame } from '../models'
 import {PlayingBoard} from "app/models/board/playing-board.model";
 import {TemplateBoard} from "app/models/board/template-board.model";
+import {PostMatch} from "../models/tile/post-match.model";
 
 @Injectable()
 export class GameService {
 
 	private baseUrl = 'http://mahjongmayhem.herokuapp.com'
+
+    private postMatchQueue = []
+
 
 	constructor(private http: Http) { }
 
@@ -36,24 +40,26 @@ export class GameService {
             .catch(this.handleError)
 	}
 
-	postMatch(gameId: string, id1: string, id2: string, token: TokenInfo): Observable<ApiResponse> {
-		const url = `${this.baseUrl}/games/${gameId}/tiles/matches`
-		const auth = token.toHeaders()
-		auth.append('Content-Type', 'application/json')
+	postMatch(postMatch: PostMatch, token: TokenInfo): Observable<ApiResponse> {
 
-		const options = new RequestOptions({ headers: auth })
+        const url = `${this.baseUrl}/games/${postMatch.gameId}/tiles/matches`
+        const auth = token.toHeaders()
+        auth.append('Content-Type', 'application/json')
 
-		return this.http.post(url, {"tile1Id":id1, "tile2Id":id2}, options)
+        const options = new RequestOptions({headers: auth})
+
+        return this.http.post(url, {"tile1Id": postMatch.tile1Id, "tile2Id": postMatch.tile2Id}, options)
             .map(res => {
-				const json = res.json()
 
-				return {
-					message: json.message as string || json as string,
-					status: res.status
-				}
-			})
+                const json = res.json()
+                return {
+                    message: json.message as string || json as string,
+                    status: res.status
+                }
+
+            })
             .catch(this.handleError)
-	}
+    }
 
 
 	getGame(id: string): Observable<Game> {

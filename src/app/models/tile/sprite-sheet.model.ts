@@ -26,20 +26,20 @@ export class SpriteSheet {
 
     calculateX(tile: PlayingTile) {
 
-        return ((tile.xPos/2)*(this.spriteWidth-this.spriteLeftShadow+this.spriteRightShadow))
+        return (((tile.xPos-1)/2)*(this.spriteWidth-this.spriteLeftShadow+this.spriteRightShadow))
     }
 
     calculateY(tile: PlayingTile) {
 
-        return ((tile.yPos/2)*(this.spriteHeight-this.spriteBottomShadow+this.spriteTopShadow))
+        return (((tile.yPos)/2)*(this.spriteHeight-this.spriteBottomShadow+this.spriteTopShadow))
     }
 
     calculateTotalWidth(xTiles: number){
-        return this.spriteWidth*((xTiles+2)/2)
+        return this.spriteWidth*((xTiles-1)/2)
     }
 
     calculateTotalHeight(yTiles: number){
-        return this.spriteHeight*((yTiles+2)/2)
+        return this.spriteHeight*((yTiles)/2)
     }
 
 

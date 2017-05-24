@@ -17,8 +17,8 @@ export class GameCreateComponent implements OnInit {
 
 	gameTemplates: Observable<TemplateBoard[]>
 	selectedTemplate: TemplateBoard = null;
-	minPlayers: number
-	maxPlayers: number
+	minPlayers: number = 1
+	maxPlayers: number = 1
 
 	constructor(
 		private gameService: GameService,

@@ -10,6 +10,7 @@ import {PlayingTile} from "../../models/tile/playing-tile.model";
 import {SpriteSheet} from "../../models/tile/sprite-sheet.model";
 import {ActivatedRoute, Params} from '@angular/router'
 import { Observable } from 'rxjs/Observable'
+import {PostMatch} from "../../models/tile/post-match.model";
 
 
 
@@ -29,9 +30,12 @@ export class PlayingGameViewComponent implements OnInit{
 
     board: Observable<PlayingBoard>
     gameBoard: PlayingBoard
+    groupedBoard: Array<TileViewModel[]>
 
     private spriteSheet: SpriteSheet
-    private selectedTile;
+    private selectedTile
+    private hintTiles: TileViewModel[] = []
+    private sendMatchQueue = []
 
 
     constructor(private gameService: GameService, private route: ActivatedRoute) {
@@ -56,11 +60,12 @@ export class PlayingGameViewComponent implements OnInit{
         this.board = this.gameService.getPlayingBoard(this.gameId)
         this.board.subscribe(results => {
             this.gameBoard = results
+            this.loadGroupedBoard()
         })
     }
 
 
-    get zGroupedTiles(): Array<TileViewModel[]> {
+    loadGroupedBoard(): Array<TileViewModel[]> {
 
         if ( this.gameBoard ) {
             var mapped = this.gameBoard.tiles.map(a => {
@@ -103,10 +108,40 @@ export class PlayingGameViewComponent implements OnInit{
 
             const grouped = groupBy(mapped, b => b.zPos)
 
+            this.groupedBoard = values(grouped)
             return values(grouped)
         }
 
         return [[]]
+    }
+
+
+    addMatchToQueue(postMatch: PostMatch){
+
+        if(this.sendMatchQueue.length == 0){
+            this.sendMatchQueue.push(postMatch)
+            this.executeMatchQueue()
+        }
+        else{
+            this.sendMatchQueue.push(postMatch)
+        }
+
+    }
+
+    private executeMatchQueue(){
+        if(this.sendMatchQueue.length != 0){
+            this.gameService.getToken()
+                .switchMap(token => {
+                    console.log("Send match")
+                    return this.gameService.postMatch(this.sendMatchQueue[0], token)
+                })
+                .subscribe(x =>{
+                    console.log("Recieve match")
+                    this.sendMatchQueue.splice(0,1)
+                    this.executeMatchQueue()
+                })
+        }
+
     }
 
 
@@ -120,26 +155,24 @@ export class PlayingGameViewComponent implements OnInit{
             }
             else if(this.selectedTile){
 
-                // SEND MATCH TO THE SERVER, AND DO THE FOLLOWING WHEN SUCCEEDED
-
                 if(this.gameId){
-                    this.gameService.getToken()
-                        .switchMap(token => {
 
-                            return this.gameService.postMatch(this.gameId, selectedTile._id, this.selectedTile._id , token)
-                        })
-                        .subscribe(x => {
-                            console.log(x)
-                            this.getGameBoard()
+                    if(this.tilesMatchable(selectedTile, this.selectedTile)){
 
+                        this.gameBoard.tiles.splice(this.gameBoard.tiles.map(function(e) { return e._id; }).indexOf(selectedTile._id), 1);
+                        this.gameBoard.tiles.splice(this.gameBoard.tiles.map(function(e) { return e._id; }).indexOf(this.selectedTile._id), 1);
 
-                            this.gameBoard.tiles.splice(this.gameBoard.tiles.indexOf(selectedTile));
-                            this.gameBoard.tiles.splice(this.gameBoard.tiles.indexOf(this.selectedTile));
+                        this.loadGroupedBoard()
 
+                        this.addMatchToQueue(new PostMatch(this.gameId, selectedTile._id, this.selectedTile._id))
 
-                            this.selectedTile = null;
-                        })
+                        this.selectedTile = null;
 
+                    }
+                    else{
+                        console.log("These 2 tiles are not matchable...")
+                        this.selectedTile = null;
+                    }
 
                 }
                 else{
@@ -157,6 +190,11 @@ export class PlayingGameViewComponent implements OnInit{
         return (this.selectedTile != null && this.selectedTile._id == tile._id)
     }
 
+
+    tilesMatchable(tile1: PlayingTile, tile2: PlayingTile){
+
+        return ((tile1.tile.suit == tile2.tile.suit) && ((tile1.tile.matchesWholeSuit && tile2.tile.matchesWholeSuit) || (tile1.tile.name == tile2.tile.name)))
+    }
 
 
     tileSelectable(selectableTile: PlayingTile){
@@ -198,9 +236,36 @@ export class PlayingGameViewComponent implements OnInit{
     }
 
 
+    showHintTiles() {
 
+        var selectableTiles = []
+        for (let layer of this.groupedBoard) {
+            for (let tile of layer) {
+                if (this.tileSelectable(tile)) {
+                    selectableTiles.push(tile)
+                }
+            }
+        }
 
+        for (var i = selectableTiles.length - 1; i >= 0; i--) {
+            for(var j = 0; j < selectableTiles.length-1; j++){
+                if(this.tilesMatchable(selectableTiles[i], selectableTiles[j])){
+                    this.hintTiles.splice(0, this.hintTiles.length);
+                    this.hintTiles.push(selectableTiles[j])
+                    this.hintTiles.push(selectableTiles[i])
+                    return
+                }
+            }
+            selectableTiles.splice(i,1)
+        }
 
+        console.log("No more tiles are matchable...")
+
+    }
+
+    tileHintable(hintableTile: PlayingTile){
+        return (this.hintTiles.map(function(e) { return e._id; }).indexOf(hintableTile._id) != -1)
+    }
 
 
 }

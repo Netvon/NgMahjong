@@ -2,44 +2,89 @@
 	<div>Fetching ...</div>
 </ng-template>
 
+
+
 <div *ngIf="gameTemplates | async; else loading; let templates">
-	<div class="field">
-		<p class="control">
-			<span class="select">
-				<select [(ngModel)]="selectedTemplate">
-					<option disabled [ngValue]="null" class="hideoption">Select a template...</option>
-					<option *ngFor="let template of templates" [ngValue]="template" >
-						{{ template.id }}
-					</option>
-				</select>
-			</span>
-		</p>
-	</div>
+
 
 	<!--<pre *ngIf="selectedTemplate">depth {{ selectedTemplate.depth }}</pre>-->
-	<app-game-template-view
-		*ngIf="selectedTemplate"
-		[gameTemplateId]="selectedTemplate.id"
-		tileStroke="#505050"
-		tileStrokeWidth="0.01"
-		>
-	</app-game-template-view>
 
-	<div class="field">
-		<p class="control">
-			<input class="input" type="number" [(ngModel)]="minPlayers" min="1" placeholder="Min Players" pattern="[0-9]+"/>
-		</p>
+
+	<div class="columns">
+		<div class="column is-8">
+			<div class="box">
+				<p class="title">Template</p>
+				<app-game-template-view
+						*ngIf="selectedTemplate"
+						[gameTemplateId]="selectedTemplate.id"
+						tileStroke="#505050"
+						tileStrokeWidth="0.01"
+				>
+				</app-game-template-view>
+			</div>
+		</div>
+		<div class="column is-4">
+			<div class="box">
+				<p class="title">Options</p>
+				<div class="field">
+					<p class="control">
+					<span class="select">
+						<select [(ngModel)]="selectedTemplate">
+							<option disabled [ngValue]="null" class="hideoption">Select a template...</option>
+							<option *ngFor="let template of templates" [ngValue]="template" >
+								{{ template.id }}
+							</option>
+						</select>
+					</span>
+					</p>
+				</div>
+				<hr>
+				<div class="field">
+					<p class="control">
+					Minimum players
+					<input class="input" type="number" [(ngModel)]="minPlayers" min="1" max="99" placeholder="Min Players" pattern="[0-9]+"/>
+					</p>
+				</div>
+				<div class="field">
+					<p class="control">
+					Maximum players
+					<input class="input" type="number" [(ngModel)]="maxPlayers" min="1" max="99" placeholder="Max Players" pattern="[0-9]+"/>
+					</p>
+				</div>
+				<div class="field">
+					<p class="control">
+						<button (click)="createGame($event)" [disabled]="!selectedTemplate"  class="button is-primary">Create</button>
+					</p>
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<div class="field">
-		<p class="control">
-			<input class="input" type="number" [(ngModel)]="maxPlayers" min="1" placeholder="Max Players" pattern="[0-9]+"/>
-		</p>
-	</div>
 
-	<div class="field">
-		<p class="control">
-			<button (click)="createGame($event)" [disabled]="!selectedTemplate"  class="button is-primary">Create</button>
-		</p>
-	</div>
+
+
+
+	<!--<div class="column is-4 boardstats">-->
+		<!--<div class=" has-text-centered boardstatgroup">-->
+			<!--<div>-->
+				<!--<p class="heading">Layers left</p>-->
+				<!--<p class="title">{{selectedTemplate.depth}}</p>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--<div class="has-text-centered boardstatgroup">-->
+			<!--<div>-->
+				<!--<p class="heading">Tiles left</p>-->
+				<!--<p class="title">{{selectedTemplate.tiles.length}} / 144</p>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+
+
+
+
+
+
+
+
+
 </div>

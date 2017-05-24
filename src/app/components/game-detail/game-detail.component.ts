@@ -9,6 +9,8 @@ import 'rxjs/add/operator/switchMap'
 import 'rxjs/add/operator/toArray'
 import { Observable } from 'rxjs/Observable'
 import {PlayingBoard} from "../../models/board/playing-board.model";
+import {TemplateBoard} from "../../models/board/template-board.model";
+import {GameState} from "../../models/game/game-state.enum";
 
 
 @Component({
@@ -20,6 +22,7 @@ export class GameDetailComponent implements OnInit {
 
 	game: Observable<Game>
 	users: Observable<UserInGame[]>
+	selectedTemplate: TemplateBoard = null;
 
 	constructor(
 		private gameService: GameService,
@@ -41,6 +44,15 @@ export class GameDetailComponent implements OnInit {
 
 		this.game.subscribe(results => {
 			this.title.setTitle(`${results.gameTemplate.id} by ${results.createdBy.name} - Mahjong`)
+
+			if(results.state.toString() == 'open'){
+				this.gameService.getTemplates().subscribe(x => {
+
+					this.selectedTemplate = x[x.map(function(e) { return e.id; }).indexOf(results.gameTemplate.id)]
+				})
+			}
+
+
 		})
 
 
