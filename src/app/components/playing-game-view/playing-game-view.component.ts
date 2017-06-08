@@ -72,47 +72,88 @@ export class PlayingGameViewComponent implements OnInit{
                 return new TileViewModel(a, this.spriteSheet.getTileSprite(a.tile), this.spriteSheet.calculateX(a), this.spriteSheet.calculateY(a), this.spriteSheet.spriteWidth, this.spriteSheet.spriteHeight)
             })
 
-            mapped = mapped.sort((a, b) => {
 
-                // The order algorithm for drawing the tiles correctly on top of each other
-                // (Different shadow sides means different order!)
 
-                // Order the Y's first if the tiles are within half a tile apart
-                if(a.yPos > b.yPos+1 || a.yPos < b.yPos-1){
-                    if (a.yPos > b.yPos) {
-                        return 1;
-                    }
-                    if (a.yPos < b.yPos) {
-                        return -1;
-                    }
-                }
+            let result = this.orderTilesByShadow(mapped)
 
-                // Then order the ones on different X's
-                if (a.xPos < b.xPos) {
-                    return 1;
-                }
-                if (a.xPos > b.xPos) {
-                    return -1;
-                }
-
-                // Then order the ones on different Y's
-                if (a.yPos > b.yPos) {
-                    return 1;
-                }
-                if (a.yPos < b.yPos) {
-                    return -1;
-                }
-
-                return 0;
-            })
-
-            const grouped = groupBy(mapped, b => b.zPos)
-
-            this.groupedBoard = values(grouped)
-            return values(grouped)
+            this.groupedBoard = values(result)
+            return values(result)
         }
 
         return [[]]
+    }
+
+
+    
+
+    orderTilesByShadow(tiles: TileViewModel[]): Array<TileViewModel[]>{
+        var dict = {};
+        var maxZ = 0;
+        var maxX = 0;
+        var maxY = 0;
+
+        for (let tile of tiles) {
+            if(!dict[tile.zPos]){
+                dict[tile.zPos] = {};
+            }
+            if(!dict[tile.zPos][tile.xPos]){
+                dict[tile.zPos][tile.xPos] = {};
+            }
+            dict[tile.zPos][tile.xPos][tile.yPos] = tile;
+            if(tile.zPos > maxZ){
+                maxZ = tile.zPos
+            }
+            if(tile.xPos > maxX){
+                maxX = tile.xPos
+            }
+            if(tile.yPos > maxY){
+                maxY = tile.yPos
+            }
+        }
+
+        var result = [];
+        for (var z = 0; z <= maxZ ; z++) {
+            result.push([])
+            for (var y = 0; y <= maxY; y++) {
+                for (var x = maxX; x >= 0; x--) {
+
+                    if(dict[z] && dict[z][x] && dict[z][x][y]){
+
+                        this.checkForTilePriority(dict, z, x, y, maxX, result)
+                        result[z].push(dict[z][x][y])
+
+                    }
+
+                }
+            }
+        }
+
+        return result
+    }
+
+
+    checkForTilePriority(dict, z, x, y, maxX, result) {
+
+        if(dict[z] && dict[z][x+2] && dict[z][x+2][y+1]){
+
+            var tilesRight = x+2;
+            for (tilesRight; tilesRight <= maxX; tilesRight = tilesRight+2){
+                if(!(dict[z] && dict[z][tilesRight] && dict[z][tilesRight][y+1])){
+                    break;
+                }
+            }
+
+            for (var xx = tilesRight; xx >= x+2; xx = xx-2) {
+                if(dict[z] && dict[z][xx] && dict[z][xx][y+1]){
+                    this.checkForTilePriority(dict, z, xx, y+1, maxX, result)
+                    result[z].push(dict[z][xx][y+1])
+                    delete dict[z][xx][y+1]
+                }
+            }
+
+        }
+
+
     }
 
 
