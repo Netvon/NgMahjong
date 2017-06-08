@@ -51,7 +51,9 @@ export class GameCreateComponent implements OnInit {
 				return this.gameService.createGame(newGame, token)
 			})
 			.subscribe(x => {
-				this.router.navigate(['/games', 1])
+
+				console.log(x)
+				this.router.navigate([`/game`, x])
 			})
 	}
 

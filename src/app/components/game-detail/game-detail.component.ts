@@ -68,8 +68,9 @@ export class GameDetailComponent implements OnInit {
 				return this.gameService.startGame(game.id, token)
 			})
 			.subscribe(x => {
-				target.classList.remove('is-loading')
-			},
+					target.classList.remove('is-loading')
+					location.reload();
+				},
 			error => target.classList.remove('is-loading'))
 	}
 
