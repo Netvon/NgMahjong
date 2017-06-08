@@ -84,14 +84,18 @@ export class PlayingGameViewComponent implements OnInit{
     }
 
 
-    
+
 
     orderTilesByShadow(tiles: TileViewModel[]): Array<TileViewModel[]>{
+        // Lets start with some variables
         var dict = {};
         var maxZ = 0;
         var maxX = 0;
         var maxY = 0;
+        var result = [];
 
+        // Make a dictionary of tiles, so it is easier to get a tile at a certain position
+        // Also get the maximum z, x and y value
         for (let tile of tiles) {
             if(!dict[tile.zPos]){
                 dict[tile.zPos] = {};
@@ -111,15 +115,23 @@ export class PlayingGameViewComponent implements OnInit{
             }
         }
 
-        var result = [];
+        // Here is where the fun(ordering) begins
         for (var z = 0; z <= maxZ ; z++) {
+
+            // Make sure each z index has a separate array
             result.push([])
+
+            // Loop through all possible positions where a tile might be, in order from each y value
             for (var y = 0; y <= maxY; y++) {
                 for (var x = maxX; x >= 0; x--) {
 
+                    // Check if there is a tile on this position
                     if(dict[z] && dict[z][x] && dict[z][x][y]){
 
+                        // Check if there are tiles nearby which get a higher priority
                         this.checkForTilePriority(dict, z, x, y, maxX, result)
+
+                        // Add the tile to the final result array
                         result[z].push(dict[z][x][y])
 
                     }
@@ -134,8 +146,11 @@ export class PlayingGameViewComponent implements OnInit{
 
     checkForTilePriority(dict, z, x, y, maxX, result) {
 
+        // Check if there is a stupid tile nearby which gets a higher priority
         if(dict[z] && dict[z][x+2] && dict[z][x+2][y+1]){
 
+            // If there is, (only) the tiles which are next to it also get a higher priority
+            // So loop through and get a number how many tiles are next to each other
             var tilesRight = x+2;
             for (tilesRight; tilesRight <= maxX; tilesRight = tilesRight+2){
                 if(!(dict[z] && dict[z][tilesRight] && dict[z][tilesRight][y+1])){
@@ -143,10 +158,16 @@ export class PlayingGameViewComponent implements OnInit{
                 }
             }
 
+            // Now loop through all those tiles
             for (var xx = tilesRight; xx >= x+2; xx = xx-2) {
                 if(dict[z] && dict[z][xx] && dict[z][xx][y+1]){
+                    // Also those tiles could have tiles nearby that have a higher priority, so check that too with this function
                     this.checkForTilePriority(dict, z, xx, y+1, maxX, result)
+
+                    // Hurray, finally add the tiles to the final result array
                     result[z].push(dict[z][xx][y+1])
+
+                    // And delete it from the total array, so it doesn't get added twice
                     delete dict[z][xx][y+1]
                 }
             }
