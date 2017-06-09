@@ -6,7 +6,7 @@ import { GameService } from '../../service/game.service'
 import { PostGame } from '../../models'
 
 import { Observable } from 'rxjs/Observable'
-import {TemplateBoard} from "../../models/board/template-board.model";
+import { TemplateBoard } from 'app/models/'
 
 @Component({
 	selector: 'app-game-create',
@@ -16,9 +16,9 @@ import {TemplateBoard} from "../../models/board/template-board.model";
 export class GameCreateComponent implements OnInit {
 
 	gameTemplates: Observable<TemplateBoard[]>
-	selectedTemplate: TemplateBoard = null;
-	minPlayers: number = 1
-	maxPlayers: number = 1
+	selectedTemplate: TemplateBoard = null
+	minPlayers = 1
+	maxPlayers = 1
 
 	constructor(
 		private gameService: GameService,

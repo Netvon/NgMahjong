@@ -7,13 +7,13 @@ import { MomentModule } from 'angular2-moment'
 
 import { AppComponent } from './app.component'
 
-import { GameService } from './service/game.service'
-import { GameOverviewComponent, GameDetailComponent, GameCreateComponent } from './components'
+import { GameService, AuthService } from './service'
+import { GameOverviewComponent, GameDetailComponent, GameCreateComponent, LoginCallbackComponent } from './components'
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './app-routing.module'
 import { GameTemplateViewComponent } from './components/game-template-view/game-template-view.component'
-import {PaginationComponent} from "./components/pagination/pagination.component";
-import {PlayingGameViewComponent} from "./components/playing-game-view/playing-game-view.component";
+import {PaginationComponent} from './components/pagination/pagination.component'
+import {PlayingGameViewComponent} from './components/playing-game-view/playing-game-view.component'
 
 @NgModule({
 	declarations: [
@@ -23,7 +23,8 @@ import {PlayingGameViewComponent} from "./components/playing-game-view/playing-g
 		GameCreateComponent,
 		GameTemplateViewComponent,
 		PlayingGameViewComponent,
-		PaginationComponent
+		PaginationComponent,
+		LoginCallbackComponent
 	],
 	imports: [
 		BrowserModule,
@@ -32,7 +33,7 @@ import {PlayingGameViewComponent} from "./components/playing-game-view/playing-g
 		HttpModule,
 		MomentModule
 	],
-	providers: [ GameService ],
+	providers: [ GameService, AuthService ],
 	bootstrap: [ AppComponent ]
 })
 export class AppModule { }
