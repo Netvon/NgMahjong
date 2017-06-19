@@ -10,15 +10,14 @@ import { Observable } from 'rxjs/Observable'
 import {
 	GameState, Game, Pagination, TokenInfo, UserInGame, ApiResponse, User, PostGame, PlayingBoard, TemplateBoard, PostMatch
 } from '../models'
-import { AuthService } from 'app/service'
+import { AuthService } from '../service/auth.service'
 
 @Injectable()
 export class GameService {
 
 	private baseUrl = 'http://mahjongmayhem.herokuapp.com'
 
-	private postMatchQueue = []
-
+	// private postMatchQueue = []
 
 	constructor(private http: Http, private auth: AuthService) { }
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { Router } from '@angular/router'
-import { AuthService } from 'app/service'
+import { AuthService } from './service'
 
 @Component({
 	selector: 'app-root',
@@ -8,7 +8,7 @@ import { AuthService } from 'app/service'
 	styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-	title = 'Webs 6'
+	title = 'Mahjong'
 
 	constructor(
 		private router: Router,
@@ -19,7 +19,9 @@ export class AppComponent {
 
 		let activeRoute = '(' + route + ')' + '.*('
 		for (const key in parameters) {
-			activeRoute += ';' + key + '=' + parameters[key]
+			if ( parameters[key] ) {
+				activeRoute += ';' + key + '=' + parameters[key]
+			}
 		}
 		activeRoute += ')'
 
@@ -30,5 +32,10 @@ export class AppComponent {
 
 	doAuth() {
 		this.authService.redirectToLogin()
+	}
+
+	doLogout() {
+		this.authService.logout()
+		this.router.navigate(['/logged-out'])
 	}
 }

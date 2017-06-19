@@ -1,27 +1,35 @@
 import { Injectable } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { StorageService } from '../service/storage.service'
 
 @Injectable()
 export class AuthService {
 
+	constructor(private storage: StorageService) { }
+
 	get username() {
-		return localStorage.getItem('username')
+		return this.storage.get('username')
 	}
 
 	get token() {
-		return localStorage.getItem('token')
+		return this.storage.get('token')
 	}
 
 	set username(value: string) {
-		localStorage.setItem('username', value)
+		this.storage.set('username', value)
 	}
 
 	set token(value: string) {
-		localStorage.setItem('token', value)
+		this.storage.set('token', value)
 	}
 
 	get isLoggedIn(): boolean {
 		return this.username !== null && this.token !== null
+	}
+
+	logout() {
+		this.storage.remove('username')
+		this.storage.remove('token')
 	}
 
 	redirectToLogin() {
