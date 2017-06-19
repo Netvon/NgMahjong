@@ -160,7 +160,7 @@ export class GameService {
 						.catch(this.handleError)
 	}
 
-	createGame(game: PostGame, token: TokenInfo): Observable<ApiResponse> {
+	createGame(game: PostGame, token: TokenInfo): Observable<string> {
 		const url = `${this.baseUrl}/games/`
 		const auth = token.toHeaders()
 		auth.append('Content-Type', 'application/json')
@@ -171,10 +171,7 @@ export class GameService {
 						.map(res => {
 							const json = res.json()
 
-							return {
-								message: json.message as string || json as string,
-								status: res.status
-							}
+							return json._id
 						})
 						.catch(this.handleError)
 	}
