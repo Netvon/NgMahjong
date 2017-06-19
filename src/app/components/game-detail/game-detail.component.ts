@@ -44,14 +44,13 @@ export class GameDetailComponent implements OnInit {
 
 
 		this.users.subscribe(users => {
-
-			for (let x = 0; x < users.length; x++) {
-				if(users[x]._id == this.authService.username){
-					this.isPlayer = true
-					return
-				}
-			}
-
+			this.isPlayer = users.some(x => x._id === this.authService.username)
+			// for (let x = 0; x < users.length; x++) {
+			// 	if (users[x]._id === this.authService.username) {
+			// 		this.isPlayer = true
+			// 		return
+			// 	}
+			// }
 		})
 
 		this.game.subscribe(results => {

@@ -18,8 +18,9 @@ g {
     opacity: 0;
   }
   & > rect[data-hintable=true] {
-    opacity: 0.2;
+    opacity: 0.4;
     fill:orange;
+    animation: pulse .5s infinite alternate ease-in-out;
   }
   & > rect:hover[data-hoverable=true]{
     opacity: 0.1;
@@ -29,9 +30,6 @@ g {
     opacity: 0.2;
     fill:black;
   }
-
-
-
 
   // For development, which tiles are selectable
   //& > rect[data-selectable=true] {
@@ -48,4 +46,24 @@ g {
 
 :host {
   display: block;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

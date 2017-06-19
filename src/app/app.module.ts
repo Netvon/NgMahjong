@@ -15,6 +15,8 @@ import { GameTemplateViewComponent } from './components/game-template-view/game-
 import { PaginationComponent } from './components/pagination/pagination.component'
 import { PlayingGameViewComponent } from './components/playing-game-view/playing-game-view.component'
 import { CanActivateViaAuth } from './guards/can-activate-auth.guard'
+import { TileSelectablePipe } from './pipes/tile-selectable.pipe'
+import { TileHintablePipe } from './pipes/tile-hintable.pipe'
 
 @NgModule({
 	declarations: [
@@ -26,7 +28,9 @@ import { CanActivateViaAuth } from './guards/can-activate-auth.guard'
 		PlayingGameViewComponent,
 		PaginationComponent,
 		LoginCallbackComponent,
-		LoggedOutComponent
+		LoggedOutComponent,
+		TileSelectablePipe,
+		TileHintablePipe
 	],
 	imports: [
 		BrowserModule,
