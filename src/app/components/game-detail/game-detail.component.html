@@ -54,7 +54,9 @@
 				</div>
 				<br>
 
-				<button class="button is-large is-primary" [disabled]="lGame.players.length < lGame.minPlayers" *ngIf="lGame.state=='open'" (click)="startGame($event, lGame)">Start game</button>
+				<button class="button is-large is-primary" 
+						[disabled]="canStartGame"
+						*ngIf="lGame.state=='open'" (click)="startGame($event, lGame)">Start game</button>
 				<br>
 
 			</div>

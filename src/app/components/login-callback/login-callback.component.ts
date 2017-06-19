@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { AuthService } from 'app/service'
+import { AuthService } from '../../service'
 
 @Component({
 	selector: 'app-login-callback',

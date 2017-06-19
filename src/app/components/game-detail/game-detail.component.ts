@@ -8,6 +8,7 @@ import { Game, UserInGame, PlayingBoard, TemplateBoard, GameState } from '../../
 import 'rxjs/add/operator/switchMap'
 import 'rxjs/add/operator/toArray'
 import { Observable } from 'rxjs/Observable'
+import { AuthService } from '../../service'
 
 @Component({
 	selector: 'app-game-detail',
@@ -19,11 +20,13 @@ export class GameDetailComponent implements OnInit {
 	game: Observable<Game>
 	users: Observable<UserInGame[]>
 	selectedTemplate: TemplateBoard = null
+	canStartGame = false
 
 	constructor(
 		private gameService: GameService,
 		private route: ActivatedRoute,
-		private title: Title
+		private title: Title,
+		private authService: AuthService
 	) { }
 
 	ngOnInit() {
@@ -40,6 +43,12 @@ export class GameDetailComponent implements OnInit {
 
 		this.game.subscribe(results => {
 			this.title.setTitle(`${results.gameTemplate.id} by ${results.createdBy.name} - Mahjong`)
+
+			this.canStartGame = !((results.createdBy._id === this.authService.username ||
+								results.players.some(p => p._id === this.authService.username)) &&
+								!results.hasPlaceLeft)
+
+			console.log(this.canStartGame)
 
 			if (results.state.toString() === 'open') {
 				this.gameService.getTemplates().subscribe(x => {
@@ -60,7 +69,7 @@ export class GameDetailComponent implements OnInit {
 			})
 			.subscribe(x => {
 					target.classList.remove('is-loading')
-					location.reload();
+					location.reload()
 				},
 			error => target.classList.remove('is-loading'))
 	}
