@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
-import { Router } from "@angular/router";
+import { Router } from '@angular/router'
+import { AuthService } from './service'
 
 @Component({
 	selector: 'app-root',
@@ -7,22 +8,34 @@ import { Router } from "@angular/router";
 	styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-	title = 'Webs 6'
+	title = 'Mahjong'
 
 	constructor(
 		private router: Router,
+		public authService: AuthService,
 	) { }
 
 	isActive(route: string, parameters: any[]): boolean {
 
-		var activeRoute = "("+route+")" + ".*(";
-		for (var key in parameters) {
-			activeRoute += ";"+key+"="+parameters[key];
+		let activeRoute = '(' + route + ')' + '.*('
+		for (const key in parameters) {
+			if ( parameters[key] ) {
+				activeRoute += ';' + key + '=' + parameters[key]
+			}
 		}
-		activeRoute += ")"
+		activeRoute += ')'
 
-		var re = new RegExp(activeRoute);
+		const re = new RegExp(activeRoute)
 
 		return re.test(this.router.url)
+	}
+
+	doAuth() {
+		this.authService.redirectToLogin()
+	}
+
+	doLogout() {
+		this.authService.logout()
+		this.router.navigate(['/logged-out'])
 	}
 }

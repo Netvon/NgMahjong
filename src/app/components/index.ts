@@ -1,9 +1,8 @@
-import { GameOverviewComponent } from './game-overview/game-overview.component'
-import { GameDetailComponent } from './game-detail/game-detail.component'
-import { GameCreateComponent } from './game-create/game-create.component'
-
-export {
-	GameOverviewComponent,
-	GameDetailComponent,
-	GameCreateComponent
-}
+export * from './game-overview/game-overview.component'
+export * from './game-detail/game-detail.component'
+export * from './game-create/game-create.component'
+export * from './login-callback/login-callback.component'
+export * from './game-template-view/game-template-view.component'
+export * from './pagination/pagination.component'
+export * from './playing-game-view/playing-game-view.component'
+export * from './logged-out/logged-out.component'

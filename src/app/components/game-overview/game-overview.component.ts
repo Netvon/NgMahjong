@@ -7,6 +7,7 @@ import { GameService } from '../../service/game.service'
 
 import 'rxjs/add/operator/switchMap'
 import { Observable } from 'rxjs/Observable'
+import { AuthService } from 'app/service'
 
 @Component({
 	selector: 'app-game-overview',
@@ -25,6 +26,7 @@ export class GameOverviewComponent implements OnInit {
 	private perPageParam: number
 
 	constructor(
+		private authService: AuthService,
 		private gameService: GameService,
 		private route: ActivatedRoute,
 		private router: Router,

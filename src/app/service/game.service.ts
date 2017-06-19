@@ -7,20 +7,19 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/observable/of'
 import { Observable } from 'rxjs/Observable'
 
-import { GameState, Game, Pagination, TokenInfo, UserInGame, ApiResponse, User, PostGame } from '../models'
-import {PlayingBoard} from "app/models/board/playing-board.model";
-import {TemplateBoard} from "app/models/board/template-board.model";
-import {PostMatch} from "../models/tile/post-match.model";
+import {
+	GameState, Game, Pagination, TokenInfo, UserInGame, ApiResponse, User, PostGame, PlayingBoard, TemplateBoard, PostMatch
+} from '../models'
+import { AuthService } from '../service/auth.service'
 
 @Injectable()
 export class GameService {
 
 	private baseUrl = 'http://mahjongmayhem.herokuapp.com'
 
-    private postMatchQueue = []
+	// private postMatchQueue = []
 
-
-	constructor(private http: Http) { }
+	constructor(private http: Http, private auth: AuthService) { }
 
 	getTemplates(): Observable<TemplateBoard[]> {
 		return this.http.get(`${this.baseUrl}/gameTemplates`)
@@ -36,30 +35,30 @@ export class GameService {
 
 	getPlayingBoard(id: string): Observable<PlayingBoard> {
 		return this.http.get(`${this.baseUrl}/games/${id}/tiles?matched=false`)
-            .map(res => new PlayingBoard().fromJson(res.json()))
-            .catch(this.handleError)
+			.map(res => new PlayingBoard().fromJson(res.json()))
+			.catch(this.handleError)
 	}
 
 	postMatch(postMatch: PostMatch, token: TokenInfo): Observable<ApiResponse> {
 
-        const url = `${this.baseUrl}/games/${postMatch.gameId}/tiles/matches`
-        const auth = token.toHeaders()
-        auth.append('Content-Type', 'application/json')
+		const url = `${this.baseUrl}/games/${postMatch.gameId}/tiles/matches`
+		const auth = token.toHeaders()
+		auth.append('Content-Type', 'application/json')
 
-        const options = new RequestOptions({headers: auth})
+		const options = new RequestOptions({headers: auth})
 
-        return this.http.post(url, {"tile1Id": postMatch.tile1Id, "tile2Id": postMatch.tile2Id}, options)
-            .map(res => {
+		return this.http.post(url, {'tile1Id': postMatch.tile1Id, 'tile2Id': postMatch.tile2Id}, options)
+			.map(res => {
 
-                const json = res.json()
-                return {
-                    message: json.message as string || json as string,
-                    status: res.status
-                }
+				const json = res.json()
+				return {
+					message: json.message as string || json as string,
+					status: res.status
+				}
 
-            })
-            .catch(this.handleError)
-    }
+			})
+			.catch(this.handleError)
+	}
 
 
 	getGame(id: string): Observable<Game> {
@@ -180,8 +179,8 @@ export class GameService {
 	getToken(): Observable<TokenInfo> {
 
 		const info: TokenInfo = new TokenInfo()
-		info.token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.InRtZS52YW5uaW13ZWdlbkBzdHVkZW50LmF2YW5zLm5sIg.dUJSESU41icAYhvVnFgvlTrpl4-D2WTTsV3i_1FuZk8'
-		info.username = 'tme.vannimwegen@student.avans.nl'
+		info.token = this.auth.token // 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.InRtZS52YW5uaW13ZWdlbkBzdHVkZW50LmF2YW5zLm5sIg.dUJSESU41icAYhvVnFgvlTrpl4-D2WTTsV3i_1FuZk8'
+		info.username = this.auth.token // 'tme.vannimwegen@student.avans.nl'
 
 		return Observable.of(info)
 	}

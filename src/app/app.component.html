@@ -1,10 +1,18 @@
+<router-outlet name="callbackOutlet"></router-outlet>
 <nav class="nav">
 	<div class="container">
 		<div class="nav-left">
 			<a class="nav-item">{{ title }}</a>
-			<a class="nav-item is-tab" [routerLink]='["/games", 1, { state: "open" }]' [ngClass]="{'is-active':isActive('/games', { state: 'open' })}">Open games</a>
-			<a class="nav-item is-tab" [routerLink]='["/games", 1, { state: "playing" }]'  [ngClass]="{'is-active':isActive('/games', { state: 'playing' })}">Playing games</a>
-			<a class="nav-item is-tab" routerLink='/create-game' routerLinkActive="is-active">Create Game</a>
+			<a *ngIf="authService.isLoggedIn" class="nav-item is-tab" [routerLink]='["/games", 1, { state: "open" }]' [ngClass]="{'is-active':isActive('/games', { state: 'open' })}">Open games</a>
+			<a *ngIf="authService.isLoggedIn" class="nav-item is-tab" [routerLink]='["/games", 1, { state: "playing" }]'  [ngClass]="{'is-active':isActive('/games', { state: 'playing' })}">Playing games</a>
+			<a *ngIf="authService.isLoggedIn" class="nav-item is-tab" routerLink='/create-game' routerLinkActive="is-active">Create Game</a>
+		</div>
+		<div class="nav-right" *ngIf="!authService.isLoggedIn">
+			<a class="nav-item is-tab" (click)="doAuth()">Login</a>
+		</div>
+		<div class="nav-right" *ngIf="authService.isLoggedIn">
+			<a class="nav-item is-tab">{{ authService.username }}</a>
+			<a class="nav-item is-tab" (click)="doLogout()">Logout</a>
 		</div>
 	</div>
 </nav>

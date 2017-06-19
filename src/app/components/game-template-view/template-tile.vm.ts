@@ -1,4 +1,4 @@
-import {Tile} from "../../models/tile/tile.model";
+import { Tile } from 'app/models'
 
 export class TemplateTileViewModel extends Tile {
 	x: number

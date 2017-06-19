@@ -1,6 +1,6 @@
 
-import {Board} from "./board.model";
-import {Tile} from "../tile/tile.model";
+import {Board} from './board.model'
+import {Tile} from '../tile/tile.model'
 
 export class TemplateBoard extends Board {
 	id: string
