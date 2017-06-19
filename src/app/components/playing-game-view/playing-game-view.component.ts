@@ -63,7 +63,7 @@ export class PlayingGameViewComponent implements OnInit {
 			this.loadGroupedBoard()
 		})
 
-		this.matchMessages = this.gameService.getMatchMessages(this.gameId)
+		this.matchMessages = this.gameService.getMatchMessages()
 		this.matchMessages.subscribe(results => {
 			console.log(results)
 			this.removePostMatchTiles(results)

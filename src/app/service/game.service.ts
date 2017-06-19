@@ -47,30 +47,78 @@ export class GameService {
 	}
 
 
+
 	testMatchMessages(id:string): Observable<string>{
 
-		return this.http.get(`${this.baseUrl}/test/${id}/match`)
+		return this.http.get(`${this.baseUrl}/test/${id}/PlayerJoined`)
             .map(res => res)
             .catch(this.handleError)
 
 	}
 
 
+	setupSocketConnection(id: string){
+		this.socket = io(`http://mahjongmayhem.herokuapp.com?gameId=${id}`)
+	}
 
 
-	getMatchMessages(id: string): Observable<PostMatch> {
+	getMatchMessages(): Observable<PostMatch> {
 		return new Observable(s => {
-
 
 			console.log("getmatchmessages gets called")
 
-			this.socket = io(`http://mahjongmayhem.herokuapp.com?gameId=${id}`)
+			if(this.socket != null){
+				this.socket.on('match', data => {
+					console.log('Socket pack recieved: ', data)
+					s.next(new PostMatch(null, data[0]._id, data[1]._id))
+				})
+			}
 
+			return () => {
+				this.socket.disconnect()
+			}
+		})
+	}
 
-			this.socket.on('match', data => {
-				console.log('Socket pack recieved: ', data)
-				s.next(new PostMatch(id, data[0]._id, data[1]._id))
-			})
+	getGameStatusMessages(): Observable<string> {
+		return new Observable(s => {
+
+			// console.log("getGameStatusMessages gets called")
+
+			if(this.socket != null){
+
+				console.log("getGameStatusMessages gets called")
+
+				this.socket.on('start', data => {
+					console.log('Socket pack recieved: ', data)
+					s.next('start')
+				})
+
+				this.socket.on('end', data => {
+					console.log('Socket pack recieved: ', data)
+					s.next('end')
+				})
+			}
+
+			return () => {
+				this.socket.disconnect()
+			}
+		})
+	}
+
+	getUsersJoiningMessages(): Observable<string> {
+		return new Observable(s => {
+
+			if(this.socket != null){
+
+				console.log("getGameStatusMessages gets called")
+
+				this.socket.on('playerJoined', data => {
+					console.log('Socket pack recieved: ', data)
+					s.next(data)
+				})
+
+			}
 
 			return () => {
 				this.socket.disconnect()
