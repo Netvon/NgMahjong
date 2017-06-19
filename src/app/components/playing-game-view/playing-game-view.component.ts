@@ -32,6 +32,8 @@ export class PlayingGameViewComponent implements OnInit {
 	gameBoard: PlayingBoard
 	groupedBoard: Array<TileViewModel[]>
 
+	historyMode: boolean = false
+
 	private spriteSheet: SpriteSheet
 	private selectedTile
 	private hintTiles: TileViewModel[] = []
@@ -56,8 +58,28 @@ export class PlayingGameViewComponent implements OnInit {
 
 	}
 
+	loadHistoryMode(){
+
+		this.historyMode = true
+
+		this.board = this.gameService.getPlayingBoard(this.gameId, null)
+		this.board.subscribe(results => {
+			this.gameBoard = results
+			this.loadGroupedBoard()
+		})
+
+	}
+
+	loadPlayingMode(){
+
+		this.historyMode = false
+
+		this.getGameBoard()
+	}
+
+
 	getGameBoard() {
-		this.board = this.gameService.getPlayingBoard(this.gameId)
+		this.board = this.gameService.getPlayingBoard(this.gameId, false)
 		this.board.subscribe(results => {
 			this.gameBoard = results
 			this.loadGroupedBoard()
@@ -66,8 +88,10 @@ export class PlayingGameViewComponent implements OnInit {
 		this.matchMessages = this.gameService.getMatchMessages()
 		this.matchMessages.subscribe(results => {
 			console.log(results)
-			this.removePostMatchTiles(results)
 
+			if(!this.historyMode){
+				this.removePostMatchTiles(results)
+			}
 		})
 
 	}

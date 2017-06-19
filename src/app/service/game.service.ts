@@ -40,8 +40,14 @@ export class GameService {
 						.catch(this.handleError)
 	}
 
-	getPlayingBoard(id: string): Observable<PlayingBoard> {
-		return this.http.get(`${this.baseUrl}/games/${id}/tiles?matched=false`)
+	getPlayingBoard(id: string, matched: boolean): Observable<PlayingBoard> {
+
+		let matchedQuery = `?matched=${matched}`
+		if(matched == null){
+			matchedQuery = ''
+		}
+
+		return this.http.get(`${this.baseUrl}/games/${id}/tiles${matchedQuery}`)
 			.map(res => new PlayingBoard().fromJson(res.json()))
 			.catch(this.handleError)
 	}
