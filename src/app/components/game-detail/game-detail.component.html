@@ -24,7 +24,9 @@
 
 				<div *ngIf="lGame.state!='open'">
 					<app-playing-game-view
-							[gameId]="lGame.id">
+							[gameId]="lGame.id"
+							[isPlayer]="isPlayer"
+					>
 					</app-playing-game-view>
 				</div>
 			</div>

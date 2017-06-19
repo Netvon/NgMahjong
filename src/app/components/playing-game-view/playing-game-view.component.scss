@@ -21,7 +21,7 @@ g {
     opacity: 0.2;
     fill:orange;
   }
-  & > rect:hover {
+  & > rect:hover[data-hoverable=true]{
     opacity: 0.1;
     fill:black;
   }

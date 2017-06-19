@@ -180,7 +180,7 @@ export class GameService {
 
 		const info: TokenInfo = new TokenInfo()
 		info.token = this.auth.token // 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.InRtZS52YW5uaW13ZWdlbkBzdHVkZW50LmF2YW5zLm5sIg.dUJSESU41icAYhvVnFgvlTrpl4-D2WTTsV3i_1FuZk8'
-		info.username = this.auth.token // 'tme.vannimwegen@student.avans.nl'
+		info.username = this.auth.username // 'tme.vannimwegen@student.avans.nl'
 
 		return Observable.of(info)
 	}

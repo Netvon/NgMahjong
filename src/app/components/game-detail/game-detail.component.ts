@@ -21,6 +21,7 @@ export class GameDetailComponent implements OnInit {
 	users: Observable<UserInGame[]>
 	selectedTemplate: TemplateBoard = null
 	canStartGame = false
+	isPlayer = false
 
 	constructor(
 		private gameService: GameService,
@@ -40,6 +41,18 @@ export class GameDetailComponent implements OnInit {
 			.switchMap((params: Params) => {
 				return this.gameService.getGame(params['id'])
 			})
+
+
+		this.users.subscribe(users => {
+
+			for (let x = 0; x < users.length; x++) {
+				if(users[x]._id == this.authService.username){
+					this.isPlayer = true
+					return
+				}
+			}
+
+		})
 
 		this.game.subscribe(results => {
 			this.title.setTitle(`${results.gameTemplate.id} by ${results.createdBy.name} - Mahjong`)

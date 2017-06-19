@@ -21,11 +21,11 @@
         </div>
 
         <div class="column is-6">
-            <div class="box has-text-centered">
-                <div>
-                    <p class="heading">Messages are here able to see, like "no more matches are available" or "These tiles are not matchable"</p>
-                </div>
-            </div>
+            <!--<div class="box has-text-centered">-->
+                <!--<div>-->
+                    <!--<p class="heading">Messages are here able to see, like "no more matches are available" or "These tiles are not matchable"</p>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
 
     <!--<div class="column is-6">-->
@@ -47,7 +47,7 @@
 
 
         <div class="column is-3">
-            <button class="button is-pulled-right is-large is-primary" (click)="showHintTiles()">Show hint</button>
+            <button *ngIf="isPlayer" class="button is-pulled-right is-large is-primary" (click)="showHintTiles()">Show hint</button>
         </div>
 
         <div class="column is-12" *ngIf="groupedBoard; else loading;">
@@ -92,6 +92,7 @@
                                   [attr.y]="tile.y"
                                   [attr.width]="tile.width"
                                   [attr.height]="tile.height"
+                                  [attr.data-hoverable]="isPlayer"
                                   [attr.data-selectable]="tileSelectable(tile)"
                                   [attr.data-selected]="tileSelected(tile)"
                                   [classList]="tileClass">

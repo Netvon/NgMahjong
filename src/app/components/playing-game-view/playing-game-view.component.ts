@@ -25,6 +25,7 @@ export class PlayingGameViewComponent implements OnInit {
 	@Input() tileZOffsetY = -0.15
 	@Input() containerClass = ['template-view']
 	@Input() tileClass = ['template-tile']
+	@Input() isPlayer = false
 
 	board: Observable<PlayingBoard>
 	gameBoard: PlayingBoard
@@ -83,8 +84,6 @@ export class PlayingGameViewComponent implements OnInit {
 
 		return [[]]
 	}
-
-
 
 
 	orderTilesByShadow(tiles: TileViewModel[]): Array<TileViewModel[]> {
@@ -210,7 +209,7 @@ export class PlayingGameViewComponent implements OnInit {
 
 	selectTile(selectedTile: PlayingTile) {
 
-		if (this.tileSelectable(selectedTile)) {
+		if (this.isPlayer && this.tileSelectable(selectedTile)) {
 
 			if (this.tileSelected(selectedTile)) {
 				this.selectedTile = null
