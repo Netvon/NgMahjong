@@ -61,8 +61,6 @@ export class GameDetailComponent implements OnInit {
 								results.players.some(p => p._id === this.authService.username)) &&
 								!results.hasPlaceLeft)
 
-			console.log(this.canStartGame)
-
 			if (results.state.toString() === 'open') {
 				this.gameService.getTemplates().subscribe(x => {
 

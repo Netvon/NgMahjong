@@ -6,20 +6,27 @@ import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/observable/of'
 import { Observable } from 'rxjs/Observable'
+import * as io from 'socket.io-client';
 
 import {
 	GameState, Game, Pagination, TokenInfo, UserInGame, ApiResponse, User, PostGame, PlayingBoard, TemplateBoard, PostMatch
 } from '../models'
 import { AuthService } from '../service/auth.service'
 
+
 @Injectable()
 export class GameService {
 
 	private baseUrl = 'http://mahjongmayhem.herokuapp.com'
+	private socket
+
 
 	// private postMatchQueue = []
 
-	constructor(private http: Http, private auth: AuthService) { }
+	constructor(private http: Http, private auth: AuthService) {
+
+
+	}
 
 	getTemplates(): Observable<TemplateBoard[]> {
 		return this.http.get(`${this.baseUrl}/gameTemplates`)
@@ -38,6 +45,41 @@ export class GameService {
 			.map(res => new PlayingBoard().fromJson(res.json()))
 			.catch(this.handleError)
 	}
+
+
+	testMatchMessages(id:string): Observable<string>{
+
+		return this.http.get(`${this.baseUrl}/test/${id}/match`)
+            .map(res => res)
+            .catch(this.handleError)
+
+	}
+
+
+
+
+	getMatchMessages(id: string): Observable<PostMatch> {
+		return new Observable(s => {
+
+
+			console.log("getmatchmessages gets called")
+
+			this.socket = io(`http://mahjongmayhem.herokuapp.com?gameId=${id}`)
+
+
+			this.socket.on('match', data => {
+				console.log('Socket pack recieved: ', data)
+				s.next(new PostMatch(id, data[0]._id, data[1]._id))
+			})
+
+			return () => {
+				this.socket.disconnect()
+			}
+		})
+	}
+
+
+
 
 	postMatch(postMatch: PostMatch, token: TokenInfo): Observable<ApiResponse> {
 

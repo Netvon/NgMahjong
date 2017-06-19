@@ -28,6 +28,7 @@ export class PlayingGameViewComponent implements OnInit {
 	@Input() isPlayer = false
 
 	board: Observable<PlayingBoard>
+	matchMessages: Observable<PostMatch>
 	gameBoard: PlayingBoard
 	groupedBoard: Array<TileViewModel[]>
 
@@ -61,6 +62,14 @@ export class PlayingGameViewComponent implements OnInit {
 			this.gameBoard = results
 			this.loadGroupedBoard()
 		})
+
+		this.matchMessages = this.gameService.getMatchMessages(this.gameId)
+		this.matchMessages.subscribe(results => {
+			console.log(results)
+			this.removePostMatchTiles(results)
+
+		})
+
 	}
 
 
@@ -206,6 +215,20 @@ export class PlayingGameViewComponent implements OnInit {
 	}
 
 
+	removePostMatchTiles(postMatch: PostMatch){
+
+		if(this.gameBoard.tiles.map((e) => e._id).indexOf(postMatch.tile1Id) != -1){
+			this.gameBoard.tiles.splice(this.gameBoard.tiles.map((e) => e._id).indexOf(postMatch.tile1Id), 1)
+		}
+
+		if(this.gameBoard.tiles.map((e) => e._id).indexOf(postMatch.tile2Id) != -1){
+			this.gameBoard.tiles.splice(this.gameBoard.tiles.map((e) => e._id).indexOf(postMatch.tile2Id), 1)
+		}
+
+		this.loadGroupedBoard()
+	}
+
+
 
 	selectTile(selectedTile: PlayingTile) {
 
@@ -219,12 +242,11 @@ export class PlayingGameViewComponent implements OnInit {
 
 					if (this.tilesMatchable(selectedTile, this.selectedTile)) {
 
-						this.gameBoard.tiles.splice(this.gameBoard.tiles.map((e) => e._id).indexOf(selectedTile._id), 1)
-						this.gameBoard.tiles.splice(this.gameBoard.tiles.map((e) => e._id).indexOf(this.selectedTile._id), 1)
+						const postMatch = new PostMatch(this.gameId, selectedTile._id, this.selectedTile._id);
 
-						this.loadGroupedBoard()
+						this.removePostMatchTiles(postMatch)
 
-						this.addMatchToQueue(new PostMatch(this.gameId, selectedTile._id, this.selectedTile._id))
+						this.addMatchToQueue(postMatch)
 
 						this.selectedTile = null
 
@@ -296,6 +318,10 @@ export class PlayingGameViewComponent implements OnInit {
 
 
 	showHintTiles() {
+
+		// this.gameService.testMatchMessages(this.gameId).subscribe(results => {
+		// 	console.log(results)
+		// })
 
 		const selectableTiles = []
 		for (const layer of this.groupedBoard) {
