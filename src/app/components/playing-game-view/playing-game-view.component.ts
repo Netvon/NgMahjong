@@ -108,13 +108,13 @@ export class PlayingGameViewComponent implements OnInit {
 	}
 
 
-	removePostMatchTiles(postMatch: PostMatch){
+	removePostMatchTiles(postMatch: PostMatch) {
 
-		if(this.gameBoard.tiles.map((e) => e._id).indexOf(postMatch.tile1Id) !== -1){
+		if (this.gameBoard.tiles.map((e) => e._id).indexOf(postMatch.tile1Id) !== -1) {
 			this.gameBoard.tiles.splice(this.gameBoard.tiles.map((e) => e._id).indexOf(postMatch.tile1Id), 1)
 		}
 
-		if(this.gameBoard.tiles.map((e) => e._id).indexOf(postMatch.tile2Id) !== -1){
+		if (this.gameBoard.tiles.map((e) => e._id).indexOf(postMatch.tile2Id) !== -1) {
 			this.gameBoard.tiles.splice(this.gameBoard.tiles.map((e) => e._id).indexOf(postMatch.tile2Id), 1)
 		}
 
