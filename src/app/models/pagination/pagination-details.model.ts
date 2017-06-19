@@ -24,7 +24,25 @@ export class PaginationDetails {
 	}
 
 	get pagesArray(): number[] {
-		return Array(this.pages).fill(undefined).map((x, i) => i + 1)
+		let pages = Array(this.pages).fill(undefined).map((x, i) => i + 1)
+
+		if ( pages.length > 20 && this.page >= 3 ) {
+			pages = pages.slice(this.page - 3, this.page)
+					.concat(pages.slice(this.page, this.page + 2))
+		} else if ( pages.length > 20 && this.page < 3 ) {
+			pages = pages.slice(0, this.page + 3)
+					.concat(pages.slice(this.page + 3, this.page + 5))
+		}
+
+		if ( !pages.includes(1) ) {
+			pages.unshift(1)
+		}
+
+		if ( !pages.includes(this.pages) ) {
+			pages.push(this.pages)
+		}
+
+		return pages
 	}
 
 	constructor(public total: number, public perPage: number, public pageZeroBased: number) { }
