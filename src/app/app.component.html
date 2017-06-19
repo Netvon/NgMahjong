@@ -8,7 +8,7 @@
 			<a *ngIf="authService.isLoggedIn" class="nav-item is-tab" routerLink='/create-game' routerLinkActive="is-active">Create Game</a>
 		</div>
 		<div class="nav-right" *ngIf="!authService.isLoggedIn">
-			<a class="nav-item is-tab" (click)="doAuth()">Login</a>
+			<a id="login" class="nav-item is-tab" (click)="doAuth()">Login</a>
 		</div>
 		<div class="nav-right" *ngIf="authService.isLoggedIn">
 			<a class="nav-item is-tab">{{ authService.username }}</a>

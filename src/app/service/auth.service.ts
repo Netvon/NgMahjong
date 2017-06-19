@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
 import { StorageService } from '../service/storage.service'
 
 @Injectable()

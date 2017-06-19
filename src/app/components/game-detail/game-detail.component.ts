@@ -53,7 +53,7 @@ export class GameDetailComponent implements OnInit {
 			if (results.state.toString() === 'open') {
 				this.gameService.getTemplates().subscribe(x => {
 
-					this.selectedTemplate = x[x.map(function(e) { return e.id }).indexOf(results.gameTemplate.id)]
+					this.selectedTemplate = x[x.map(e => e.id).indexOf(results.gameTemplate.id)]
 				})
 			}
 		})
