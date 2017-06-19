@@ -25,7 +25,7 @@
 				<div *ngIf="lGame.state!='open'">
 					<app-playing-game-view
 							[gameId]="lGame.id"
-							[isPlayer]="isPlayer"
+							[isPlayer]="isPlayer && lGame.state != 'finished'"
 					>
 					</app-playing-game-view>
 				</div>
