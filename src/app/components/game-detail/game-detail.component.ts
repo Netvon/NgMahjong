@@ -57,23 +57,22 @@ export class GameDetailComponent implements OnInit {
 	}
 
 
-	loadUsers(){
+	loadUsers() {
 
 		this.users = this.route.params
-            .switchMap((params: Params) => {
+			.switchMap((params: Params) => {
 				return this.gameService.getPlayersInGame(params['id'])
 			})
 
 
 		this.users.subscribe(users => {
-
-			for (let x = 0; x < users.length; x++) {
-				if(users[x]._id == this.authService.username){
-					this.isPlayer = true
-					return
-				}
-			}
-
+			this.isPlayer = users.some(x => x._id === this.authService.username)
+			// for (let x = 0; x < users.length; x++) {
+			// 	if (users[x]._id === this.authService.username) {
+			// 		this.isPlayer = true
+			// 		return
+			// 	}
+			// }
 		})
 
 
@@ -81,10 +80,10 @@ export class GameDetailComponent implements OnInit {
 
 
 
-	loadGame(){
+	loadGame() {
 
 		this.game = this.route.params
-            .switchMap((params: Params) => {
+			.switchMap((params: Params) => {
 
 				this.gameService.setupSocketConnection(params['id'])
 
@@ -98,8 +97,8 @@ export class GameDetailComponent implements OnInit {
 
 			const enoughPlayers = results.players.length >= results.minPlayers
 			this.canStartGame = !((results.createdBy._id === this.authService.username ||
-			results.players.some(p => p._id === this.authService.username)) &&
-			enoughPlayers)
+				results.players.some(p => p._id === this.authService.username)) &&
+				enoughPlayers)
 
 
 			if (results.state.toString() === 'open') {
@@ -124,8 +123,8 @@ export class GameDetailComponent implements OnInit {
 				return this.gameService.startGame(game.id, token)
 			})
 			.subscribe(x => {
-					target.classList.remove('is-loading')
-				},
+				target.classList.remove('is-loading')
+			},
 			error => target.classList.remove('is-loading'))
 	}
 

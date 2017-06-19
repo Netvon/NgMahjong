@@ -10,12 +10,11 @@
 
 <div class="columns is-multiline" *ngIf="gameBoard; else loading; let lGameBoard">
 
-
         <div class="column is-3">
             <div class="has-text-centered">
                 <div>
                     <p class="heading">Tiles left</p>
-                    <p class="title">{{lGameBoard.tiles.length}} / 144</p>
+                    <p class="title">{{ lGameBoard.tiles.length }} / 144</p>
                 </div>
             </div>
         </div>
@@ -66,11 +65,10 @@
 
 
         <div class="column is-3">
-            <!--<button *ngIf="isPlayer && !historyMode" class="button is-pulled-right is-large is-primary" (click)="showHintTiles()">Show hint</button>-->
 
+            <input *ngIf="historyMode" class="range-slider__range" min="0" max="144" type="range"/>
 
-                <input class="range-slider__range" min="0" max="144" type="range"/>
-
+            <button *ngIf="isPlayer && !historyMode" class="button is-pulled-right is-large is-primary" (click)="gameBoard.showHintTiles()">Show hint</button>
 
         </div>
 
@@ -80,20 +78,7 @@
                        [attr.data-z]="i"
                        [attr.transform]="'translate(' + (tileZOffsetX * i) + ',' + (tileZOffsetY * i) + ')'">
 
-                    <!--<svg:rect *ngFor="let tile of group" (click)="selectTile(tile)"-->
-                    <!--[attr.x]="tile.x"-->
-                    <!--[attr.y]="tile.y"-->
-                    <!--[attr.data-id]="tile._id"-->
-                    <!--[attr.width]="tileXSize"-->
-                    <!--[attr.height]="tileYSize"-->
-                    <!--[attr.ry]="tileRadius"-->
-                    <!--[attr.stroke]="tileStroke"-->
-                    <!--[attr.stroke-width]="tileStrokeWidth"-->
-                    <!--[attr.data-selectable]="tileSelectable(tile)"-->
-                    <!--[attr.data-selected]="tileSelected(tile)"-->
-                    <!--[classList]="tileClass"/>-->
-
-                    <svg:g *ngFor="let tile of group">
+                    <svg:g *ngFor="let tile of group" (click)="selectTile(tile)">
 
                         <image
                                 [attr.xlink:href]="tile.spriteSource"
@@ -107,103 +92,25 @@
                                   [attr.y]="tile.y"
                                   [attr.width]="tile.width"
                                   [attr.height]="tile.height"
-                                  [attr.data-hintable]="tileHintable(tile)"
+                                  [attr.data-hintable]="tile | tileHintable: gameBoard.hintTiles"
                                   [classList]="tileClass">
                         </svg:rect>
 
-                        <svg:rect (click)="selectTile(tile)"
+                        <svg:rect 
                                   [attr.x]="tile.x"
                                   [attr.y]="tile.y"
                                   [attr.width]="tile.width"
                                   [attr.height]="tile.height"
                                   [attr.data-hoverable]="isPlayer"
-                                  [attr.data-selectable]="tileSelectable(tile)"
+                                  [attr.data-selectable]="tile | tileSelectable: gameBoard"
                                   [attr.data-selected]="tileSelected(tile)"
                                   [classList]="tileClass">
                         </svg:rect>
 
 
                     </svg:g>
-
-
-                    <!--<svg:text
-                        text-anchor="middle"
-                        [attr.x]="tile.x + .5"
-                        [attr.y]="tile.y + .70"
-                        font-size=".5"
-                        style="stroke-width: 0; fill: darkslategrey">{{ tile._id | slice:22:24 }}</svg:text>-->
-                    <!--</svg:g>-->
                 </svg:g>
 
             </svg>
         </div>
-
-
-
-
-
-
-
-    <!--<div *ngIf="gameBoard; else loading; let lGameBoard">-->
-    <!--<div class=" has-text-centered boardstatgroup">-->
-    <!--<div>-->
-    <!--<p class="heading">Layers left</p>-->
-    <!--<p class="title">{{lGameBoard.depth}}</p>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="has-text-centered boardstatgroup">-->
-    <!--<div>-->
-    <!--<p class="heading">Tiles left</p>-->
-    <!--<p class="title">{{lGameBoard.tiles.length}} / 144</p>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="has-text-centered boardstatgroup">-->
-    <!--<div>-->
-    <!--<p class="heading">Total matches</p>-->
-    <!--<p class="title">0</p>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="has-text-centered boardstatgroup">-->
-    <!--<div>-->
-    <!--<p class="heading">Your matches</p>-->
-    <!--<p class="title">0</p>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="has-text-centered boardstatgroup">-->
-    <!--<div>-->
-    <!--<button class="button is-large is-primary" (click)="showHintTiles()">Show hint</button>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-</div>
-
-
-
-
-
-<div>
-<!--<div class="field is-grouped">-->
-<!--<p class="control">-->
-<!--<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileXSize"/>-->
-<!--<label>tileXSize: {{ tileXSize }}</label>-->
-<!--</p>-->
-
-<!--<p class="control">-->
-<!--<input type="range" step="0.1" min="0" max="5" [(ngModel)]="tileYSize"/>-->
-<!--<label>tileYSize: {{ tileYSize }}</label>-->
-<!--</p>-->
-<!--</div>-->
-
-<!--<div class="field is-grouped">-->
-<!--<p class="control">-->
-<!--<input type="range" step="0.01" [attr.min]="-1" [attr.max]="1" [(ngModel)]="tileZOffsetX"/>-->
-<!--<label>tileZOffsetX: {{ tileZOffsetX }}</label>-->
-<!--</p>-->
-<!--<p class="control">-->
-<!--<input type="range" step="0.01" [attr.min]="-1" [attr.max]="1" [(ngModel)]="tileZOffsetY"/>-->
-<!--<label>tileZOffsetY: {{ tileZOffsetY }}</label>-->
-<!--</p>-->
-<!--</div>-->
-<!--<input type="range" step="0.01" min="0" [attr.max]="tileXSize/2" [(ngModel)]="tileRadius"/>-->
-
 </div>
