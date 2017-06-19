@@ -1,7 +1,6 @@
 
 import { Board } from './board.model'
 import { PlayingTile } from '../tile/playing-tile.model'
-import { Observable } from 'rxjs/Observable'
 import { Subject } from 'rxjs/Subject'
 
 export class PlayingBoard extends Board {
@@ -15,13 +14,53 @@ export class PlayingBoard extends Board {
 		return this
 	}
 
+
+	amountOfMatches(): number {
+		let amount = 0
+		for(let tile of this.tiles){
+			if(tile.match){
+				amount++
+			}
+		}
+		console.log(amount)
+		return amount
+	}
+
+	tilesSortedByMatchDate(): PlayingTile[]{
+
+		let tiles = []
+		for(let tile of this.tiles){
+			if(tile.match){
+				tiles.push(tile)
+			}
+		}
+
+		return tiles.sort((n1,n2) => {
+			if (n1.match.foundOn > n2.match.foundOn) {
+				return -1;
+			}
+
+			if (n1.match.foundOn < n2.match.foundOn) {
+				return 1;
+			}
+
+			return 0;
+		});
+
+	}
+
+
 	tileSelectable(selectableTile: PlayingTile) {
+
+		if(selectableTile.match){
+			return false;
+		}
 
 		let tileLeft = false
 		let tileRight = false
 
 		for (const tile of this.tiles) {
-			if (tile._id === selectableTile._id) {
+			if (tile._id === selectableTile._id || tile.match) {
 				continue
 			}
 

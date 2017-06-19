@@ -34,6 +34,9 @@ export class PlayingGameViewComponent implements OnInit {
 	groupedBoard: Array<TileViewModel[]>
 
 	historyMode: boolean = false
+	historyRangeNumber: number = 1
+	amountOfMatches: number = 0
+	groupedMatches: PlayingTile[] = []
 
 	private spriteSheet: SpriteSheet
 	private selectedTile
@@ -60,15 +63,41 @@ export class PlayingGameViewComponent implements OnInit {
 
 	}
 
+	tileIsLastHistoryMatch(lastMatch: PlayingTile){
+
+		if(!lastMatch.match){
+			return false
+		}
+		else{
+			return (lastMatch.match.foundOn == this.groupedMatches[this.historyRangeNumber].match.foundOn)
+		}
+	}
+
+	matchHistoryVisible(matchTile: PlayingTile){
+		return (!this.historyMode || matchTile.match == null || (matchTile.match.foundOn >= this.groupedMatches[this.historyRangeNumber].match.foundOn))
+	}
+
 	loadHistoryMode(){
 
-		this.historyMode = true
 
 		this.board = this.gameService.getPlayingBoard(this.gameId, null)
 		this.board.subscribe(results => {
 			this.gameBoard = results
+
+			this.historyMode = true
 			this.loadGroupedBoard()
+
+			this.amountOfMatches = this.gameBoard.amountOfMatches()
+			this.groupedMatches = this.gameBoard.tilesSortedByMatchDate()
+			console.log(this.groupedMatches)
+			console.log(this.gameBoard.tiles)
+			console.log(this.groupedBoard)
+
+
+
 		})
+
+
 
 	}
 
@@ -76,7 +105,7 @@ export class PlayingGameViewComponent implements OnInit {
 
 		this.historyMode = false
 
-		this.getGameBoard()
+		this.loadGroupedBoard()
 	}
 
 
@@ -101,7 +130,7 @@ export class PlayingGameViewComponent implements OnInit {
 	loadGroupedBoard() {
 
 		if (this.gameBoard) {
-			this.groupedBoard = TileViewModel.loadGroupedBoard(this.gameBoard.tiles, this.spriteSheet)
+			this.groupedBoard = TileViewModel.loadGroupedBoard(this.gameBoard.tiles, this.spriteSheet, this.historyMode)
 		}
 	}
 
@@ -149,7 +178,7 @@ export class PlayingGameViewComponent implements OnInit {
 
 	selectTile(selectedTile: PlayingTile) {
 
-		if (this.isPlayer && this.gameBoard.tileSelectable(selectedTile)) {
+		if (!this.historyMode && this.isPlayer && this.gameBoard.tileSelectable(selectedTile)) {
 
 			if (this.tileSelected(selectedTile)) {
 				this.selectedTile = null

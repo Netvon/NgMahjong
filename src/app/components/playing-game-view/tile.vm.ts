@@ -9,7 +9,18 @@ export class TileViewModel extends PlayingTile {
 
 	spriteSource: string
 
-	static loadGroupedBoard(from: PlayingTile[], spriteSheet: SpriteSheet): Array<TileViewModel[]> {
+	static loadGroupedBoard(from: PlayingTile[], spriteSheet: SpriteSheet, withMatches: boolean = false): Array<TileViewModel[]> {
+
+		if(!withMatches){
+			let newFrom = []
+			for(let tile of from){
+				if(!tile.match){
+					newFrom.push(tile)
+				}
+			}
+			from = newFrom
+		}
+
 
 		const mapped = from.map(a => {
 			return new TileViewModel(a,
@@ -123,6 +134,7 @@ export class TileViewModel extends PlayingTile {
 		this.yPos = tile.yPos
 		this.zPos = tile.zPos
 		this.tile = tile.tile
+		this.match = tile.match
 		this._id = tile._id
 
 		this.spriteSource = spriteSource

@@ -22,6 +22,12 @@ g {
     fill:orange;
     animation: pulse .5s infinite alternate ease-in-out;
   }
+  & > rect[data-lastmatch=true] {
+    opacity: 0.4;
+    fill: #ff1e00;
+    animation: pulse .5s infinite alternate ease-in-out;
+  }
+
   & > rect:hover[data-hoverable=true]{
     opacity: 0.1;
     fill:black;
