@@ -7,7 +7,7 @@ import { GameService } from '../../service/game.service'
 
 import 'rxjs/add/operator/switchMap'
 import { Observable } from 'rxjs/Observable'
-import { AuthService } from 'app/service'
+import { AuthService, ScrollService } from 'app/service'
 
 @Component({
 	selector: 'app-game-overview',
@@ -15,8 +15,6 @@ import { AuthService } from 'app/service'
 	styleUrls: ['./game-overview.component.scss']
 })
 export class GameOverviewComponent implements OnInit {
-
-	isLoading = true
 
 	games: Observable<Pagination<Game>>
 	overviewState: GameState
@@ -31,7 +29,8 @@ export class GameOverviewComponent implements OnInit {
 		private gameService: GameService,
 		private route: ActivatedRoute,
 		private router: Router,
-		private title: Title
+		private title: Title,
+		private scrollService: ScrollService
 	) { }
 
 	ngOnInit() {
@@ -40,12 +39,11 @@ export class GameOverviewComponent implements OnInit {
 				return
 			}
 
-			window.scrollTo(0, 0)
+			this.scrollService.scrollToTop()
 		})
 
 		this.games = this.route.params
 			.switchMap((params: Params) => {
-				this.isLoading = true
 				this.pageParam = (+params['page'] - 1) || 0
 				this.perPageParam = +params['perPage'] || 10
 				this.overviewState = +GameState[params['state']] || GameState.open
@@ -66,8 +64,6 @@ export class GameOverviewComponent implements OnInit {
 			}
 
 			this.title.setTitle(`Game Overview - Page ${this.pagination.page} - Mahjong`)
-
-			this.isLoading = false
 		}, error => {
 			console.log(error)
 		})

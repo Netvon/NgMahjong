@@ -7,8 +7,14 @@ import { MomentModule } from 'angular2-moment'
 
 import { AppComponent } from './app.component'
 
-import { GameService, AuthService, StorageService } from './service'
-import { GameOverviewComponent, GameDetailComponent, GameCreateComponent, LoginCallbackComponent, LoggedOutComponent } from './components'
+import { GameService, AuthService, StorageService, ScrollService } from './service'
+import {
+	GameOverviewComponent,
+	GameDetailComponent,
+	GameCreateComponent,
+	LoginCallbackComponent,
+	LoggedOutComponent,
+	LoadingIndicatorComponent } from './components'
 
 import { AppRoutingModule } from './app-routing.module'
 import { GameTemplateViewComponent } from './components/game-template-view/game-template-view.component'
@@ -30,7 +36,8 @@ import { TileHintablePipe } from './pipes/tile-hintable.pipe'
 		LoginCallbackComponent,
 		LoggedOutComponent,
 		TileSelectablePipe,
-		TileHintablePipe
+		TileHintablePipe,
+		LoadingIndicatorComponent
 	],
 	imports: [
 		BrowserModule,
@@ -39,7 +46,7 @@ import { TileHintablePipe } from './pipes/tile-hintable.pipe'
 		HttpModule,
 		MomentModule
 	],
-	providers: [ CanActivateViaAuth, StorageService, GameService, AuthService ],
+	providers: [ CanActivateViaAuth, StorageService, GameService, AuthService, ScrollService ],
 	bootstrap: [ AppComponent ]
 })
 export class AppModule { }

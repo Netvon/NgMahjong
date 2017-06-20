@@ -1,11 +1,7 @@
-<ng-template #loading>
-	<div class="level">
-		<div class="level-item">
-			<i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
-			<span class="sr-only">Loading...</span>
-		</div>
-	</div>
-</ng-template>
+
+<app-loading-indicator #loading>
+	
+</app-loading-indicator>
 
 
 <svg *ngIf="gameTemplate; else loading; let template"  [attr.viewBox]="viewBox" [classList]="containerClass" xmlns="http://www.w3.org/2000/svg">

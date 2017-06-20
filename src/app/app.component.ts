@@ -1,18 +1,19 @@
-import { Component } from '@angular/core'
+import { Component, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core'
 import { Router } from '@angular/router'
-import { AuthService } from './service'
+import { AuthService } from 'app/service'
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent{
 	title = 'Mahjong'
+	isLoading = true
 
 	constructor(
 		private router: Router,
-		public authService: AuthService,
+		public authService: AuthService
 	) { }
 
 	isActive(route: string, parameters: any[]): boolean {

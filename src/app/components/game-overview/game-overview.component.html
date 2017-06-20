@@ -1,10 +1,5 @@
 <ng-template #loading>
-	<div class="level">
-		<div class="level-item">
-			<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-			<span class="sr-only">Loading...</span>
-		</div>
-	</div>
+	<app-loading-indicator></app-loading-indicator>
 </ng-template>
 
 <div *ngIf="!isLoading; else loading"></div>
@@ -27,14 +22,6 @@
 				</p>
 			</div>
 		</div>
-
-		<!--<details>
-			<div class="content">
-				<pre>{{ game | json }}</pre>
-			</div>
-		</details>-->
-
-		<!--<p>{{ game.createdOn | date }} {{ game.createdOn | date:'jm' }}</p>-->
 
 		<div class="columns">
 			<div class="column has-text-centered">
@@ -62,29 +49,6 @@
 				</div>
 			</div>
 		</div>
-
-		<!--<div class="level game-section detail">
-			<div class="level-left">
-				<div class="level-item">
-					<div>
-						<p class="heading">Created On</p>
-						<p class="title is-6"><time title="{{game.createdOn | amCalendar}}">{{ game.createdOn | amTimeAgo }}</time></p>
-					</div>
-				</div>
-				<div class="level-item" *ngIf="game.startedOn">
-					<div>
-						<p class="heading">Started On</p>
-						<p class="title is-6">{{ game.startedOn | amTimeAgo }}</p>
-					</div>
-				</div>
-				<div class="level-item" *ngIf="game.endedOn">
-					<div>
-						<p class="heading">Ended On</p>
-						<p class="title is-6">{{ game.startedOn | amTimeAgo }}</p>
-					</div>
-				</div>
-			</div>
-		</div>-->
 	</div>
 
 	<app-pagination url="/games" [pagination]="pagination"></app-pagination>

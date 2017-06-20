@@ -1,29 +1,26 @@
 {
 	"version": "0.2.0",
 	"configurations": [
-
 		{
 			"type": "chrome",
 			"request": "launch",
-			"name": "Launch Chrome against localhost",
+			"name": "Launch Chrome",
 			"url": "http://localhost:4200",
 			"webRoot": "${workspaceRoot}",
 			"sourceMaps": true,
-			"sourceMapPathOverrides": {
-				"webpack:///*": "${webRoot}/*"
-			},
-			"userDataDir": false
-		},
+			"userDataDir": "${workspaceRoot}/.vscode/chrome",
+			"runtimeArgs": [
+				"--disable-session-crashed-bubble"
+			]
+    	},
 		{
+			"name": "Attach Chrome",
 			"type": "chrome",
 			"request": "attach",
-			"name": "Attach to Chrome",
+			"url": "http://localhost:4200",
 			"port": 9222,
 			"webRoot": "${workspaceRoot}",
-			"sourceMaps": true,
-			"sourceMapPathOverrides": {
-				"webpack:///*": "${webRoot}/*"
-			}
+			"sourceMaps": true
 		}
 	]
 }

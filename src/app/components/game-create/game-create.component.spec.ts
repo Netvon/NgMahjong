@@ -4,7 +4,7 @@ import { GameCreateComponent } from './game-create.component'
 import { BrowserModule } from '@angular/platform-browser'
 import { FormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
-import { GameTemplateViewComponent } from '../../components'
+import { GameTemplateViewComponent, LoadingIndicatorComponent } from '../../components'
 import { GameService } from '../../service'
 
 import { RouterTestingModule } from '@angular/router/testing'
@@ -37,7 +37,7 @@ describe('GameCreateComponent', () => {
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
 			imports: [ BrowserModule, FormsModule, HttpModule, RouterTestingModule.withRoutes([]) ],
-			declarations: [GameTemplateViewComponent, GameCreateComponent],
+			declarations: [GameTemplateViewComponent, GameCreateComponent, LoadingIndicatorComponent],
 			providers: [
 				{ provide: GameService, useClass: MockGameService },
 			]
