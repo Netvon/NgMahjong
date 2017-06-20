@@ -43,7 +43,7 @@ export class GameService {
 	getPlayingBoard(id: string, matched: boolean): Observable<PlayingBoard> {
 
 		let matchedQuery = `?matched=${matched}`
-		if(matched == null){
+		if (matched == null) {
 			matchedQuery = ''
 		}
 
@@ -275,7 +275,7 @@ export class GameService {
 	getToken(): Observable<TokenInfo> {
 
 		const info: TokenInfo = new TokenInfo()
-		info.token = this.auth.token // 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.InRtZS52YW5uaW13ZWdlbkBzdHVkZW50LmF2YW5zLm5sIg.dUJSESU41icAYhvVnFgvlTrpl4-D2WTTsV3i_1FuZk8'
+		info.token = this.auth.token
 		info.username = this.auth.username // 'tme.vannimwegen@student.avans.nl'
 
 		return Observable.of(info)

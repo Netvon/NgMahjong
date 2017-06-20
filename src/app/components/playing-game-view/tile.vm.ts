@@ -11,10 +11,10 @@ export class TileViewModel extends PlayingTile {
 
 	static loadGroupedBoard(from: PlayingTile[], spriteSheet: SpriteSheet, withMatches: boolean = false): Array<TileViewModel[]> {
 
-		if(!withMatches){
-			let newFrom = []
-			for(let tile of from){
-				if(!tile.match){
+		if (!withMatches) {
+			const newFrom = []
+			for (const tile of from) {
+				if (!tile.match) {
 					newFrom.push(tile)
 				}
 			}

@@ -39,7 +39,7 @@ export class SpriteSheet {
 	}
 
 	calculateTotalHeight(yTiles: number) {
-		return this.spriteHeight * ((yTiles+1) / 2)
+		return this.spriteHeight * ((yTiles + 1) / 2)
 	}
 
 

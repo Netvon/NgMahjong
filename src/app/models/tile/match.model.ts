@@ -1,24 +1,24 @@
 
 export class Match {
 
-    foundBy: string
-    otherTileId: string
-    foundOn: string
+	foundBy: string
+	otherTileId: string
+	foundOn: string
 
-    constructor(foundBy: string, otherTileId: string, foundOn: string) {
-        this.foundBy = foundBy
-        this.otherTileId = otherTileId
-        this.foundOn = foundOn
-    }
+	constructor(foundBy?: string, otherTileId?: string, foundOn?: string) {
+		this.foundBy = foundBy
+		this.otherTileId = otherTileId
+		this.foundOn = foundOn
+	}
 
 
-    fromJson(json: { foundBy: string, otherTileId: string, foundOn: string }) {
+	fromJson(json: { foundBy: string, otherTileId: string, foundOn: string }) {
 
-        this.foundBy = json.foundBy
-        this.otherTileId = json.otherTileId
-        this.foundOn = json.foundOn
+		this.foundBy = json.foundBy
+		this.otherTileId = json.otherTileId
+		this.foundOn = json.foundOn
 
-        return this
-    }
+		return this
+	}
 
 }

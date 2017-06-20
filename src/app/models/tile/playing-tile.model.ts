@@ -1,6 +1,6 @@
-import {Tile} from './tile.model'
-import {TileDetail} from './tile-detail.model'
-import {Match} from "./match.model";
+import { Tile } from './tile.model'
+import { TileDetail } from './tile-detail.model'
+import { Match } from './match.model'
 
 export class PlayingTile extends Tile {
 	_id: string
@@ -13,7 +13,7 @@ export class PlayingTile extends Tile {
 		this._id = json._id
 		this.tile = new TileDetail().fromJson(json.tile)
 
-		if(json.match){
+		if (json.match) {
 			this.match = new Match().fromJson(json.match)
 		}
 

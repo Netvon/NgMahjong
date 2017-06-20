@@ -33,9 +33,9 @@ export class PlayingGameViewComponent implements OnInit {
 	gameBoard: PlayingBoard
 	groupedBoard: Array<TileViewModel[]>
 
-	historyMode: boolean = false
-	historyRangeNumber: number = 1
-	amountOfMatches: number = 0
+	historyMode = false
+	historyRangeNumber = 1
+	amountOfMatches = 0
 	groupedMatches: PlayingTile[] = []
 
 	private spriteSheet: SpriteSheet
@@ -63,21 +63,20 @@ export class PlayingGameViewComponent implements OnInit {
 
 	}
 
-	tileIsLastHistoryMatch(lastMatch: PlayingTile){
+	tileIsLastHistoryMatch(lastMatch: PlayingTile) {
 
-		if(!lastMatch.match){
+		if (!lastMatch.match) {
 			return false
-		}
-		else{
-			return (lastMatch.match.foundOn == this.groupedMatches[this.historyRangeNumber].match.foundOn)
+		} else {
+			return (lastMatch.match.foundOn === this.groupedMatches[this.historyRangeNumber].match.foundOn)
 		}
 	}
 
-	matchHistoryVisible(matchTile: PlayingTile){
+	matchHistoryVisible(matchTile: PlayingTile) {
 		return (!this.historyMode || matchTile.match == null || (matchTile.match.foundOn >= this.groupedMatches[this.historyRangeNumber].match.foundOn))
 	}
 
-	loadHistoryMode(){
+	loadHistoryMode() {
 
 
 		this.board = this.gameService.getPlayingBoard(this.gameId, null)
@@ -92,22 +91,15 @@ export class PlayingGameViewComponent implements OnInit {
 			console.log(this.groupedMatches)
 			console.log(this.gameBoard.tiles)
 			console.log(this.groupedBoard)
-
-
-
 		})
-
-
-
 	}
 
-	loadPlayingMode(){
+	loadPlayingMode() {
 
 		this.historyMode = false
 
 		this.loadGroupedBoard()
 	}
-
 
 	getGameBoard() {
 		this.board = this.gameService.getPlayingBoard(this.gameId, false)
@@ -120,7 +112,7 @@ export class PlayingGameViewComponent implements OnInit {
 		this.matchMessages.subscribe(results => {
 			console.log(results)
 
-			if(!this.historyMode){
+			if (!this.historyMode) {
 				this.removePostMatchTiles(results)
 			}
 		})

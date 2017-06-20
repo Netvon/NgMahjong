@@ -17,8 +17,8 @@ export class PlayingBoard extends Board {
 
 	amountOfMatches(): number {
 		let amount = 0
-		for(let tile of this.tiles){
-			if(tile.match){
+		for (const tile of this.tiles) {
+			if (tile.match) {
 				amount++
 			}
 		}
@@ -26,34 +26,34 @@ export class PlayingBoard extends Board {
 		return amount
 	}
 
-	tilesSortedByMatchDate(): PlayingTile[]{
+	tilesSortedByMatchDate(): PlayingTile[] {
 
-		let tiles = []
-		for(let tile of this.tiles){
-			if(tile.match){
+		const tiles = []
+		for (const tile of this.tiles) {
+			if (tile.match) {
 				tiles.push(tile)
 			}
 		}
 
-		return tiles.sort((n1,n2) => {
+		return tiles.sort((n1, n2) => {
 			if (n1.match.foundOn > n2.match.foundOn) {
-				return -1;
+				return -1
 			}
 
 			if (n1.match.foundOn < n2.match.foundOn) {
-				return 1;
+				return 1
 			}
 
-			return 0;
-		});
+			return 0
+		})
 
 	}
 
 
 	tileSelectable(selectableTile: PlayingTile) {
 
-		if(selectableTile.match){
-			return false;
+		if (selectableTile.match) {
+			return false
 		}
 
 		let tileLeft = false

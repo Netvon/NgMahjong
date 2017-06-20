@@ -5,8 +5,8 @@ import { TemplateTileViewModel } from './template-tile.vm'
 
 import groupBy from 'lodash/groupBy'
 import values from 'lodash/values'
-import {Board} from "../../models/board/board.model";
-import {Tile} from "../../models/tile/tile.model";
+import { Board } from '../../models/board/board.model'
+import { Tile } from '../../models/tile/tile.model'
 
 @Component({
 	selector: 'app-game-template-view',
@@ -32,17 +32,17 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 	// get tileSizeAdjusted(): number {
 	// 	return this.tileSize / this.tileScale
 	// }
-    //
+	//
 	// get zSortedTiles(): TemplateTile[] {
 	// 	if ( this.gameTemplate ) {
 	// 		return this.gameTemplate.tiles.sort((a, b) => a.zPos - b.zPos)
 	// 	}
-    //
+	//
 	// 	return new Array<TemplateTile>()
 	// }
 
 	get zGroupedTiles(): Array<TemplateTileViewModel[]> {
-		if ( this.gameTemplate ) {
+		if (this.gameTemplate) {
 			const mapped = this.gameTemplate.tiles.map(a => {
 				return new TemplateTileViewModel().fromTemplateTile(a, this.calculateX(a), this.calculateY(a))
 			})
@@ -56,7 +56,7 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 	}
 
 	get viewBox(): string {
-		if ( this.gameTemplate ) {
+		if (this.gameTemplate) {
 			return `0 0 ${this.gameTemplate.width} ${this.gameTemplate.height}`
 		}
 
@@ -68,13 +68,13 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 	) { }
 
 	ngOnInit() {
-		if ( this.gameTemplateId ) {
+		if (this.gameTemplateId) {
 			this.loadTemplate()
 		}
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if ( changes.gameTemplateId ) {
+		if (changes.gameTemplateId) {
 			this.loadTemplate()
 		}
 	}
@@ -96,9 +96,9 @@ export class GameTemplateViewComponent implements OnInit, OnChanges {
 	protected loadTemplate() {
 		this.gameTemplate = null
 		this.gameService.getTemplate(this.gameTemplateId)
-						.subscribe(x => {
-							this.gameTemplate = x
-						})
+			.subscribe(x => {
+				this.gameTemplate = x
+			})
 	}
 
 
